@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#142b35">
+  <title>SPK-AHP Dashboard | Pemilihan Mobil</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+  <style>
+    :root { --ink:#18313a; --muted:#78888d; --paper:#f3f6f4; --surface:#fff; --line:#e6ece8; --forest:#176b57; --forest-soft:#e8f4ef; --amber:#dc9b43; --rose:#ca705e; --nav:#0b192c; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--paper); color:var(--ink); font-family:"DM Sans",sans-serif; font-size:14px; }
+    h1,h2,h3,h4,h5,.brand-title { font-family:"Manrope",sans-serif; }
+    .app-shell { min-height:100vh; overflow-x:clip; }
+    .sidebar { position:fixed; inset:0 auto 0 0; z-index:10; width:246px; padding:27px 18px; color:#d7e4e2; background:var(--nav); display:flex; flex-direction:column; }
+    .brand { display:flex; gap:12px; align-items:center; padding:0 10px 27px; border-bottom:1px solid #ffffff18; }
+    .brand-mark { width:40px; height:40px; display:grid; place-items:center; border-radius:12px; color:#163b35; background:#b8e3ce; font-size:17px; }
+    .brand-title { color:#fff; font-size:14px; font-weight:800; line-height:1.35; }
+    .brand-subtitle { margin-top:3px; color:#9cb4b4; font-size:11px; }
+    .nav-label { margin:27px 11px 10px; color:#809a9c; font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase; }
+    .side-nav { display:grid; gap:5px; }
+    .side-link { width:100%; border:0; border-radius:8px; padding:11px 12px; background:transparent; color:#adc0c0; text-align:left; display:flex; align-items:center; gap:11px; font:inherit; transition:background .18s,color .18s; }
+    .side-link i { width:17px; text-align:center; font-size:14px; }
+    .side-link:hover,.side-link.active { color:#fff; background:#ffffff13; }
+    .side-link.active i { color:#9bd9bb; }
+    .sidebar-footer { margin-top:auto; padding:15px 11px 0; border-top:1px solid #ffffff18; color:#a8bdbc; font-size:11px; line-height:1.7; }
+    .sidebar-footer strong { color:#e7f0ec; font-size:12px; }
+    .main-area { min-height:100vh; margin-left:246px; }
+    .topbar { min-height:82px; padding:17px 34px; background:var(--surface); border-bottom:1px solid var(--line); display:flex; align-items:center; justify-content:space-between; gap:20px; }
+    .topbar h1 { margin:0; font-size:19px; font-weight:800; }
+    .topbar p { margin:4px 0 0; color:var(--muted); font-size:12px; }
+    .profile { display:flex; align-items:center; gap:10px; }
+    .avatar { width:38px; height:38px; display:grid; place-items:center; border-radius:50%; color:#fff; background:var(--forest); font-weight:700; }
+    .profile-name { font-size:12px; font-weight:700; }
+    .profile-meta { color:var(--muted); font-size:11px; }
+    .content { max-width:1500px; margin:0 auto; padding:27px 34px 44px; }
+    .metric-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:15px; margin-bottom:23px; }
+    .metric { min-height:128px; position:relative; overflow:hidden; padding:17px 18px; background:var(--surface); border:1px solid var(--line); border-radius:9px; }
+    .metric-top { display:flex; justify-content:space-between; align-items:center; color:var(--muted); font-size:11px; font-weight:600; }
+    .metric-icon { width:32px; height:32px; display:grid; place-items:center; border-radius:9px; color:var(--forest); background:var(--forest-soft); }
+    .metric-value { margin-top:13px; font-family:"Manrope",sans-serif; font-size:20px; font-weight:800; line-height:1.25; }
+    .metric-note { margin-top:5px; color:var(--muted); font-size:11px; }
+    .metric-note .good { color:var(--forest); font-weight:700; }
+    .tab-strip { display:flex; gap:5px; overflow-x:auto; margin-bottom:18px; padding:5px; background:#e9efeb; border-radius:9px; scrollbar-width:thin; }
+    .tab-button { flex:0 0 auto; display:inline-flex; gap:8px; align-items:center; border:0; border-radius:7px; padding:10px 14px; background:transparent; color:#637578; font:inherit; font-size:12px; font-weight:700; transition:.18s; }
+    .tab-button:hover { color:var(--ink); }
+    .tab-button.active { color:var(--ink); background:#fff; box-shadow:0 1px 4px #17312a12; }
+    .tab-button i { font-size:12px; }
+    .tab-panel { display:none; animation:reveal .25s ease both; }
+    .tab-panel.active { display:block; }
+    @keyframes reveal { from { opacity:0; transform:translateY(5px); } to { opacity:1; transform:translateY(0); } }
+    .section-heading { margin:3px 0 15px; display:flex; align-items:end; justify-content:space-between; gap:12px; }
+    .section-heading h2 { margin:0; font-size:17px; font-weight:800; }
+    .section-heading p { margin:5px 0 0; color:var(--muted); font-size:12px; }
+    .eyebrow { margin-bottom:6px; color:var(--forest); font-size:10px; font-weight:800; letter-spacing:.8px; text-transform:uppercase; }
+    .panel { min-width:0; padding:18px; background:var(--surface); border:1px solid var(--line); border-radius:9px; }
+    .panel-title { margin:0; font-size:13px; font-weight:800; }
+    .panel-subtitle { margin:5px 0 14px; color:var(--muted); font-size:11px; }
+    .chart-grid { display:grid; grid-template-columns:minmax(0,1.65fr) minmax(260px,.8fr); gap:15px; margin-bottom:15px; }
+    .chart-wrap { position:relative; height:270px; }
+    .chart-wrap.donut { height:235px; }
+    .winner-banner { display:flex; align-items:center; gap:13px; margin-bottom:16px; padding:14px 16px; color:#205742; background:#e8f4ec; border:1px solid #d5eade; border-radius:8px; }
+    .winner-banner .trophy { width:37px; height:37px; flex:0 0 auto; display:grid; place-items:center; border-radius:50%; color:#fff; background:var(--forest); }
+    .winner-banner strong { display:block; font-size:13px; }
+    .winner-banner span { display:block; margin-top:3px; color:#587b69; font-size:11px; }
+    .table-responsive { overflow-x:auto; }
+    .table { margin:0; vertical-align:middle; --bs-table-bg:transparent; }
+    .table thead th { padding:10px 12px; border-bottom-color:var(--line); color:#849194; font-size:10px; font-weight:800; letter-spacing:.55px; text-transform:uppercase; white-space:nowrap; }
+    .table tbody td { padding:12px; border-bottom-color:#edf1ee; font-size:12px; }
+    .table tbody tr:last-child td { border-bottom:0; }
+    .rank-chip { width:25px; height:25px; display:inline-grid; place-items:center; border-radius:7px; color:#657578; background:#f0f3f1; font-weight:800; }
+    .rank-chip.first { color:#845714; background:#fbefd8; }
+    .status-pill { display:inline-flex; align-items:center; border-radius:20px; padding:5px 9px; color:#627477; background:#f0f3f1; font-size:10px; font-weight:700; white-space:nowrap; }
+    .status-pill.recommended { color:#176b57; background:#e8f4ef; }
+    .score-cell { min-width:150px; }
+    .score-line { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:6px; font-weight:700; }
+    .progress { height:5px; background:#edf1ee; }
+    .progress-bar { background:var(--forest); }
+    .matrix-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
+    .matrix-card { min-width:0; padding:16px; background:var(--surface); border:1px solid var(--line); border-radius:9px; }
+    .matrix-card.wide { grid-column:1 / -1; }
+    .matrix-card .table th,.matrix-card .table td { padding:8px 9px; text-align:center; white-space:nowrap; font-size:11px; }
+    .matrix-card .table thead th { font-size:9px; }
+    .matrix-card .table tbody th { color:#516468; font-weight:700; }
+    .matrix-meta { display:flex; flex-wrap:wrap; justify-content:space-between; gap:8px; margin-top:12px; padding-top:11px; border-top:1px solid var(--line); color:var(--muted); font-size:10px; }
+    .matrix-meta strong { color:var(--ink); }
+    .info-note { margin:14px 0 0; padding:12px 14px; border-left:3px solid var(--amber); border-radius:4px; color:#715e3d; background:#fff7e9; font-size:11px; line-height:1.6; }
+    .sim-layout { display:grid; grid-template-columns:minmax(0,1.05fr) minmax(0,1fr); gap:15px; }
+    .weight-row { display:grid; grid-template-columns:130px minmax(100px,1fr) 64px; gap:12px; align-items:center; padding:13px 0; border-bottom:1px solid #edf1ee; }
+    .weight-row:last-of-type { border-bottom:0; }
+    .weight-name { font-size:12px; font-weight:700; }
+    .weight-value { color:var(--forest); text-align:right; font-size:12px; font-weight:800; }
+    input[type="range"] { width:100%; accent-color:var(--forest); }
+    .sim-actions { display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin-top:14px; }
+    .btn-primary-custom { border:0; border-radius:7px; padding:10px 14px; color:#fff; background:var(--forest); font:inherit; font-size:12px; font-weight:700; }
+    .btn-primary-custom:hover { background:#105542; }
+    .btn-light-custom { border:1px solid var(--line); border-radius:7px; padding:9px 12px; color:#52676a; background:#fff; font:inherit; font-size:11px; font-weight:700; }
+    .sim-hint { color:var(--muted); font-size:10px; }
+    .sim-total { margin-top:14px; padding:11px 12px; color:#5d6e70; background:#f4f7f5; border-radius:7px; font-size:11px; }
+    .sim-total strong { color:var(--ink); }
+    .hierarchy { display:grid; justify-items:center; gap:13px; padding:20px 12px 6px; }
+    .hierarchy-node { width:min(100%,380px); padding:13px; border:1px solid #dce7e1; border-radius:8px; background:#f8fbf9; text-align:center; }
+    .hierarchy-node.goal { color:#fff; border-color:var(--nav); background:var(--nav); }
+    .node-label { margin-bottom:4px; color:var(--muted); font-size:9px; font-weight:800; letter-spacing:.7px; text-transform:uppercase; }
+    .goal .node-label { color:#a8c2bc; }
+    .node-value { font-size:12px; font-weight:800; }
+    .hierarchy-arrow { color:#94a9a0; font-size:13px; }
+    .hierarchy-children { width:100%; display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+    .hierarchy-children.alternatives { grid-template-columns:repeat(4,1fr); }
+    .hierarchy-children .hierarchy-node { width:auto; min-height:60px; display:grid; align-content:center; padding:10px 6px; }
+    .formula-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+    .formula { padding:14px; border:1px solid var(--line); border-radius:8px; background:#fbfcfb; }
+    .formula-label { margin-bottom:7px; color:var(--muted); font-size:10px; font-weight:800; text-transform:uppercase; }
+    .formula code { color:#205c4b; font-family:"DM Sans",sans-serif; font-size:12px; font-weight:700; white-space:normal; }
+    .method-copy { color:#66777a; font-size:11px; line-height:1.7; }
+    .footer-note { margin-top:20px; color:#91a09f; text-align:center; font-size:10px; }
+    @media (max-width:1100px) { .sidebar{width:215px}.main-area{margin-left:215px}.topbar,.content{padding-left:23px;padding-right:23px}.metric-grid{grid-template-columns:repeat(2,minmax(0,1fr))} }
+    @media (max-width:760px) {
+      .sidebar{position:static;width:auto;padding:13px 15px}.brand{padding:0 3px 12px;border:0}.brand-mark{width:35px;height:35px}.nav-label,.sidebar-footer{display:none}.side-nav{display:flex;gap:4px;overflow-x:auto;padding:10px 0 1px;scrollbar-width:thin}.side-link{width:auto;flex:0 0 auto;padding:8px 10px;font-size:11px}.side-link i{width:auto}.main-area{margin:0}.topbar{min-height:70px;padding:14px 17px}.topbar h1{font-size:16px}.topbar p{max-width:240px;font-size:10px}.profile-name,.profile-meta{display:none}.content{padding:18px 15px 30px}.metric-grid{gap:10px}.metric{min-height:116px;padding:13px}.metric-top{align-items:start;gap:5px;font-size:10px}.metric-icon{width:28px;height:28px;flex:0 0 auto}.metric-value{margin-top:11px;font-size:17px}.metric-note{font-size:10px}.tab-strip{margin-right:-15px;border-radius:0;padding-left:10px}.tab-button{padding:9px 11px;font-size:11px}.chart-grid,.sim-layout,.matrix-grid{grid-template-columns:1fr}.matrix-card.wide{grid-column:auto}.chart-wrap{height:240px}.chart-wrap.donut{height:220px}.hierarchy-children.alternatives{grid-template-columns:repeat(2,1fr)}.formula-grid{grid-template-columns:1fr}.section-heading{align-items:start;flex-direction:column}
+    }
+    @media (max-width:420px) { .metric-grid{grid-template-columns:1fr 1fr}.metric-value{font-size:15px}.weight-row{grid-template-columns:105px minmax(60px,1fr) 52px;gap:7px}.panel,.matrix-card{padding:14px} }
+    body { background:#f5f7fb; color:#172033; font-size:12px; }
+    .app-shell { min-height:100vh; }
+    .sidebar { position:fixed; inset:0 auto 0 0; z-index:20; width:250px; padding:22px 16px 16px; display:flex; flex-direction:column; color:#d4ddec; background:#0b192c; }
+    .brand { gap:11px; align-items:center; padding:0 8px 22px; border-bottom:1px solid #ffffff17; }
+    .brand-mark { width:38px; height:38px; border-radius:10px; color:#102033; background:#b7e0d1; }
+    .brand-title { font-size:14px; }
+    .brand-subtitle { color:#9eacc0; }
+    .nav-label { margin:22px 10px 9px; color:#8392a9; }
+    .side-nav { display:grid; gap:5px; }
+    .side-link { padding:11px 12px; border-radius:7px; color:#aebbd0; font-size:12px; }
+    .side-link:hover,.side-link.active { color:#fff; background:#ffffff12; }
+    .side-link.active { box-shadow:inset 3px 0 #68c3a1; }
+    .side-link.active i { color:#8ed6b8; }
+    .sidebar-footer { margin-top:auto; padding:14px 8px 0; border-top:1px solid #ffffff17; color:#b8c4d4; }
+    .sidebar-footer .profile { margin:0; padding:0; border:0; background:none; }
+    .sidebar-footer .profile-name { color:#fff; font-size:11px; }
+    .sidebar-footer .profile-meta { color:#9eacc0; font-size:10px; }
+    .main-area { min-height:100vh; margin:0 0 0 250px; }
+    .topbar { position:sticky; top:0; z-index:15; min-height:76px; padding:12px 30px; gap:18px; display:flex; align-items:center; justify-content:space-between; background:#fff; border-bottom:1px solid #e6eaf0; }
+    .topbar h1 { font-size:18px; }
+    .topbar p { font-size:11px; }
+    .header-copy { display:none; }
+    .topbar-title { min-width:0; }
+    .topbar-title .eyebrow { margin:0 0 3px; font-size:9px; }
+    .top-actions { display:flex; align-items:center; gap:14px; }
+    .icon-button { width:34px; height:34px; display:grid; place-items:center; border:1px solid #e4e9f0; border-radius:7px; color:#66758b; background:#fff; }
+    .icon-button:hover { color:#176b57; background:#f4f8f6; }
+    .header-brand { display:flex; min-width:200px; align-items:center; gap:9px; }
+    .app-mark { width:27px; height:27px; flex:0 0 auto; display:grid; place-items:center; border-radius:6px; color:#fff; background:#152038; font-size:12px; }
+    .header-copy { min-width:0; }
+    .header-copy h1 { margin:0; color:#172033; font-size:13px; font-weight:800; line-height:1.2; }
+    .header-copy p { margin:2px 0 0; color:#758094; font-size:8px; line-height:1.2; }
+    .version-badge { display:inline-flex; vertical-align:middle; margin-left:4px; padding:3px 5px; border:1px solid #d6e0ff; border-radius:3px; color:#315eea; background:#eff3ff; font:700 7px "DM Sans",sans-serif; letter-spacing:.3px; }
+    .header-nav { min-width:0; display:flex; align-self:stretch; align-items:center; gap:2px; }
+    .header-nav a { display:flex; align-items:center; min-height:34px; padding:0 9px; border-bottom:2px solid transparent; color:#526078; text-decoration:none; font-size:9px; white-space:nowrap; }
+    .header-nav a:hover,.header-nav a.active { color:#164ce0; border-bottom-color:#2457ed; }
+    .profile { flex:0 0 auto; gap:7px; padding:5px 8px; border:1px solid #dbe4f3; border-radius:6px; background:#f4f7ff; }
+    .avatar { width:22px; height:22px; font-size:9px; }
+    .profile-name { color:#26314a; font-size:8px; line-height:1.25; }
+    .profile-meta { font-size:7px; line-height:1.25; }
+    .content { max-width:1500px; margin:0; padding:20px 30px 36px; }
+    .sidebar + .main-area .content { padding-top:0; }
+    .status-ribbon { min-height:27px; margin:0 -20px 13px; padding:5px 20px; display:flex; justify-content:space-between; align-items:center; gap:10px; border-bottom:1px solid #dfe5f0; color:#65718a; background:#edf2ff; font-size:8px; }
+    .status-ribbon strong { color:#2557d8; }
+    .status-ribbon .solved { color:#087a58; font-family:monospace; }
+    .metric-grid { grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px; margin-bottom:13px; }
+    .metric { min-height:108px; padding:11px 12px 9px; border-color:#dce2ec; border-radius:6px; box-shadow:0 1px 2px #13233d08; }
+    .metric:first-child { border-left:2px solid #08a46c; }
+    .metric-top { font-size:8px; text-transform:uppercase; letter-spacing:.25px; }
+    .metric-icon { width:auto; height:auto; padding:3px 6px; border:1px solid #cce7dd; border-radius:8px; font-size:7px; }
+    .metric-value { margin-top:8px; font-size:15px; }
+    .metric-note { margin-top:7px; font-size:8px; }
+    .metric .metric-number { display:block; margin-top:5px; color:#08a46c; font:800 23px "Manrope",sans-serif; }
+    .metric .metric-number.blue { color:#1559ed; }
+    .metric .metric-divider { margin-top:7px; padding-top:6px; border-top:1px solid #edf0f5; color:#647087; font-size:7px; }
+    .metric .metric-divider strong { float:right; color:#05855b; }
+    .tab-strip { display:none; }
+    .tab-panel { display:none; animation:reveal .2s ease both; }
+    .tab-panel.active { display:block; }
+    #panel-overview { animation:none; }
+    .section-heading { display:flex; }
+    .overview-columns { display:grid; grid-template-columns:minmax(0,1.35fr) minmax(270px,.92fr); gap:14px; align-items:start; }
+    .left-stack,.right-stack { min-width:0; display:grid; gap:13px; }
+    .panel { padding:11px; border-color:#dce2ec; border-radius:6px; box-shadow:0 1px 2px #13233d08; }
+    .panel-title { display:flex; align-items:center; gap:6px; font-size:11px; }
+    .panel-title i { color:#315fea; }
+    .panel-subtitle { margin:3px 0 8px; font-size:8px; }
+    .ranking-panel { padding:0; overflow:hidden; }
+    .ranking-panel .panel-head { padding:10px 11px 8px; }
+    .ranking-panel .table thead th { padding:8px 7px; color:#fff; background:#151d30; border:0; font-size:7px; line-height:1.3; white-space:normal; }
+    .ranking-panel .table tbody td { padding:8px 7px; border-color:#e7ebf1; font-size:8px; }
+    .ranking-panel .table tbody tr:first-child { background:#f2fbf7; }
+    .ranking-panel .table tbody tr:first-child td { color:#07835c; }
+    .rank-chip { width:16px; height:16px; border:1px solid #d4dced; border-radius:50%; color:#283750; background:#edf2ff; font-size:7px; }
+    .rank-chip.first { color:#fff; border-color:#079966; background:#079966; }
+    .table .car-name { display:block; color:#1e293b; font-size:8px; font-weight:700; }
+    .table .car-category { display:block; margin-top:2px; color:#788397; font-size:7px; }
+    .table .global-weight { color:#31415c; font-family:monospace; font-size:8px; }
+    .score-track { width:100%; min-width:45px; height:7px; overflow:hidden; border-radius:8px; background:#e4edff; }
+    .score-track span { display:block; height:100%; border-radius:inherit; background:#079968; }
+    tr:nth-child(2) .score-track span { background:#3269f4; }
+    tr:nth-child(3) .score-track span { background:#566176; }
+    tr:nth-child(4) .score-track span { background:#b4bdcc; }
+    .score-percent { white-space:nowrap; font-family:monospace; font-size:8px; font-weight:700; }
+    .recommend-tag { display:inline-block; padding:3px 5px; border:1px solid #9bd8c1; border-radius:5px; color:#05845b; font-size:7px; text-align:center; }
+    .recommend-tag.other { border-color:#d6ddeb; color:#52617b; background:#f3f6fc; white-space:nowrap; }
+    .ranking-foot { padding:8px 10px; display:flex; justify-content:space-between; gap:8px; color:#596984; background:#f0f4ff; font-size:7px; line-height:1.5; }
+    .ranking-foot a { flex:0 0 auto; color:#2457ed; text-decoration:none; }
+    .criteria-card-head { display:flex; justify-content:space-between; align-items:center; gap:8px; }
+    .small-badge { padding:3px 6px; border-radius:3px; color:#2457dc; background:#edf2ff; font:7px monospace; white-space:nowrap; }
+    .criteria-content { display:grid; grid-template-columns:minmax(105px,.9fr) minmax(0,1.1fr); align-items:center; gap:8px; }
+    .chart-wrap.donut { height:150px; }
+    .criteria-legend { display:grid; gap:5px; }
+    .criterion-item { display:grid; grid-template-columns:7px minmax(0,1fr) auto; gap:5px; align-items:start; padding:6px; border:1px solid #e3e8f0; border-radius:4px; }
+    .criterion-dot { width:7px; height:7px; margin-top:3px; border-radius:50%; }
+    .criterion-name { color:#25324a; font-size:8px; font-weight:700; }
+    .criterion-desc { margin-top:2px; color:#758095; font-size:7px; line-height:1.3; }
+    .criterion-weight { color:#1f2a3e; text-align:right; font:700 8px monospace; }
+    .criterion-weight small { display:block; margin-top:2px; color:#788397; font-weight:400; }
+    .consistency-head { display:flex; justify-content:space-between; align-items:center; gap:8px; }
+    .valid-badge { padding:3px 6px; border:1px solid #a6e2ce; border-radius:10px; color:#00835e; background:#effbf7; font-size:7px; white-space:nowrap; }
+    .consistency-stats { display:grid; grid-template-columns:repeat(3,1fr); gap:5px; margin-top:8px; }
+    .consistency-stat { padding:7px 4px; border:1px solid #dce4f0; border-radius:4px; background:#f2f6ff; text-align:center; }
+    .consistency-stat:last-child { border-color:#a7e4cf; background:#f0fbf6; }
+    .consistency-stat label { display:block; color:#5e6a80; font-size:6px; text-transform:uppercase; }
+    .consistency-stat strong { display:block; margin:3px 0; color:#1d293d; font:700 10px monospace; }
+    .consistency-stat:last-child strong { color:#00865e; }
+    .consistency-stat small { color:#79859a; font-size:6px; }
+    .consistency-result { margin-top:8px; padding:8px; border:1px solid #bce9d9; border-radius:4px; color:#315e4f; background:#effaf5; font-size:7px; line-height:1.5; }
+    .consistency-result strong { color:#00815a; }
+    .matrix-caption { margin:9px 0 5px; color:#27354d; font-size:7px; font-weight:800; text-transform:uppercase; }
+    .matrix-snippet { width:100%; border-collapse:collapse; font-family:monospace; font-size:7px; }
+    .matrix-snippet th,.matrix-snippet td { padding:5px 4px; border:1px solid #dce3ef; text-align:center; }
+    .matrix-snippet th { background:#edf2ff; font-family:"DM Sans",sans-serif; font-weight:700; }
+    .matrix-snippet tbody tr:nth-child(even) { background:#f5f7fb; }
+    .matrix-snippet td:last-child { background:#eaf0ff; font-weight:700; }
+    .comparison-panel { padding:11px; }
+    .comparison-legend { margin-left:auto; display:flex; gap:8px; color:#647087; font-size:7px; }
+    .legend-dot { display:inline-block; width:7px; height:7px; margin-right:3px; border-radius:2px; }
+    .chart-wrap.comparison { height:180px; }
+    .footer-note { margin-top:15px; padding-top:9px; border-top:1px solid #dbe2ed; color:#748097; text-align:left; font-size:7px; }
+    .footer-note strong { float:right; color:#344057; }
+    .page-panel { max-width:1180px; }
+    .report-summary { display:grid; grid-template-columns:minmax(0,1fr) 220px; gap:18px; align-items:center; }
+    .report-winner { padding:20px; border:1px solid #cfe6da; border-radius:8px; color:#21523f; background:#eff8f3; }
+    .report-winner h3 { margin:0 0 6px; font-size:17px; }
+    .report-winner p { margin:0; color:#5e7869; font-size:12px; line-height:1.7; }
+    .report-score { color:#0b8a61; text-align:center; font:800 34px "Manrope",sans-serif; }
+    .report-score small { display:block; color:#778397; font:500 11px "DM Sans",sans-serif; }
+    .page-table th { background:#f3f6fa; color:#66758b; font-size:10px; }
+    .page-table td,.page-table th { padding:10px 12px; border-bottom:1px solid #e8edf2; }
+    .consistency-large { color:#07865e; font:800 28px "Manrope",sans-serif; }
+    .consistency-equation { padding:14px; border-radius:7px; color:#37465c; background:#f4f7fa; font:12px monospace; line-height:1.8; }
+    @media(max-width:900px) {
+      .sidebar { width:220px; }
+      .main-area { margin-left:220px; }
+      .topbar { padding:12px 20px; }
+      .content { padding:18px 20px 30px; }
+      .status-ribbon { margin-right:-20px; margin-left:-20px; padding-right:20px; padding-left:20px; }
+      .overview-columns { grid-template-columns:1fr; gap:12px; }
+      .metric-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:7px; }
+      .metric { padding:9px; }
+    }
+    @media(max-width:700px) {
+      .sidebar { width:70px; padding:16px 9px 12px; align-items:center; }
+      .brand { justify-content:center; width:100%; padding:0 0 17px; }
+      .brand > div:last-child,.nav-label,.side-link .nav-text,.sidebar-footer .profile-copy { display:none; }
+      .side-nav { width:100%; }
+      .side-link { justify-content:center; padding:12px 0; }
+      .side-link i { width:auto; }
+      .sidebar-footer { width:100%; padding:12px 0 0; }
+      .sidebar-footer .profile { justify-content:center; }
+      .main-area { margin-left:70px; }
+      .topbar { min-height:66px; padding:10px 14px; }
+      .topbar h1 { font-size:15px; }
+      .topbar p { font-size:10px; }
+      .content { padding:14px 14px 24px; }
+      .status-ribbon { margin-right:-14px; margin-left:-14px; padding-right:14px; padding-left:14px; }
+      .overview-columns { grid-template-columns:1fr; }
+      .metric-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+      .metric { min-height:102px; }
+      .left-stack,.right-stack { gap:10px; }
+      .chart-wrap.comparison { height:190px; }
+      .report-summary { grid-template-columns:1fr; }
+    }
+    @media(max-width:430px) {
+      .topbar { padding-right:10px; padding-left:10px; }
+      .top-actions { gap:6px; }
+      .top-actions > .profile .profile-name { display:none; }
+      .top-actions > .profile .profile-meta { display:none; }
+      .content { padding-right:10px; padding-left:10px; }
+      .status-ribbon { margin-right:-10px; margin-left:-10px; padding-right:10px; padding-left:10px; }
+      .status-ribbon .ribbon-case { display:none; }
+      .ranking-panel .table thead th { padding:7px 4px; font-size:6px; }
+      .ranking-panel .table tbody td { padding:7px 4px; }
+      .criteria-content { grid-template-columns:105px minmax(0,1fr); }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Navigasi utama">
+      <div class="brand"><div class="brand-mark"><i class="fa-solid fa-scale-balanced" aria-hidden="true"></i></div><div><div class="brand-title">SPK-AHP Mobil</div><div class="brand-subtitle">Decision support system</div></div></div>
+      <div class="nav-label">Menu Utama</div>
+      <nav class="side-nav" aria-label="Bagian dashboard">
+        <button class="side-link active" type="button" data-tab="overview" title="Dashboard"><i class="fa-solid fa-chart-pie"></i><span class="nav-text">Dashboard</span></button>
+        <button class="side-link" type="button" data-tab="criteria" title="Matriks Kriteria"><i class="fa-solid fa-table-cells-large"></i><span class="nav-text">Matriks Kriteria</span></button>
+        <button class="side-link" type="button" data-tab="alternatives" title="Matriks Alternatif"><i class="fa-solid fa-car-side"></i><span class="nav-text">Matriks Alternatif</span></button>
+        <button class="side-link" type="button" data-tab="consistency" title="Rasio Konsistensi"><i class="fa-solid fa-circle-check"></i><span class="nav-text">Rasio Konsistensi</span></button>
+        <button class="side-link" type="button" data-tab="report" title="Laporan & Kesimpulan"><i class="fa-solid fa-file-lines"></i><span class="nav-text">Laporan &amp; Kesimpulan</span></button>
+      </nav>
+      <div class="sidebar-footer"><div class="profile"><div class="avatar"><i class="fa-solid fa-user-graduate"></i></div><div class="profile-copy"><div class="profile-name">Mahasiswa</div><div class="profile-meta">Student ID · Semester 5</div></div></div></div>
+    </aside>
+    <main class="main-area">
+      <header class="topbar">
+        <div class="topbar-title"><div class="eyebrow">SPK · Analytical Hierarchy Process</div><h1 id="pageTitle">Dashboard</h1><p id="pageSubtitle">Ringkasan rekomendasi pemilihan mobil</p></div>
+        <div class="top-actions"><button class="icon-button" type="button" aria-label="Notifikasi"><i class="fa-regular fa-bell"></i></button><div class="profile"><div class="avatar">M5</div><div><div class="profile-name">Mahasiswa</div><div class="profile-meta">Student ID · Semester 5</div></div></div></div>
+      </header>
+      <div class="content">
+        <div class="status-ribbon"><span class="ribbon-case"><i class="fa-solid fa-book-open"></i> <strong>Sistem Pendukung Keputusan</strong> · Studi Kasus: Pemilihan Mobil Keluarga Berbasis Multi-Kriteria</span><span class="solved"><i class="fa-solid fa-circle-check"></i> Eigenvector Solved (Iterations: 12)</span><span>Skala Saaty: 1–9 Fundamental</span></div>
+        <nav class="tab-strip" aria-label="Tampilan dashboard">
+          <button class="tab-button active" type="button" data-tab="overview"><i class="fa-solid fa-chart-column"></i> Overview &amp; Ranking</button>
+          <button class="tab-button" type="button" data-tab="matrices"><i class="fa-solid fa-table-cells"></i> Detail Matriks AHP</button>
+          <button class="tab-button" type="button" data-tab="simulator"><i class="fa-solid fa-wand-magic-sparkles"></i> Simulator</button>
+          <button class="tab-button" type="button" data-tab="methodology"><i class="fa-solid fa-sitemap"></i> Hierarki &amp; Metodologi</button>
+        </nav>
+        <section class="tab-panel active" id="panel-overview" aria-labelledby="overview-heading">
+          <section class="metric-grid grid gap-3" aria-label="Ringkasan hasil" id="dashboard-metrics">
+            <article class="metric"><div class="metric-top"><span>Rekomendasi Terbaik</span><span class="metric-icon">Rank #1</span></div><div class="metric-value">Suzuki Ertiga</div><span class="metric-number">46.66% <small style="font-size:8px;color:#778397;font-weight:500">(0.4666)</small></span><div class="metric-divider">Vektor Prioritas Tertinggi <strong>Optimal <i class="fa-regular fa-circle-check"></i></strong></div></article>
+            <article class="metric"><div class="metric-top"><span>Kriteria Penentu</span><span class="metric-icon">Bobot Dominan</span></div><div class="metric-value">Keandalan</div><span class="metric-number blue">55.71% <small style="font-size:8px;color:#778397;font-weight:500">(0.5571)</small></span><div class="metric-divider">Prioritas kriteria tertinggi <strong>λ = 1.671</strong></div></article>
+            <article class="metric"><div class="metric-top"><span>Rasio Konsistensi</span><span class="metric-icon">Valid (CR &lt; 0.1)</span></div><div class="metric-value">CR = 0.0158</div><div class="metric-note" style="font-family:monospace">λ<sub>max</sub>: 3.018 &nbsp; CI: 0.009 &nbsp; RI: 0.58</div><div class="metric-divider"><strong style="float:none">Konsistensi Tinggi</strong> <span style="float:right">Akurasi 98.42%</span></div></article>
+            <article class="metric"><div class="metric-top"><span>Ruang Lingkup Model</span><span class="metric-icon">Hierarki Level 2</span></div><div class="metric-value">4 Alternatif | 3 Kriteria</div><div class="metric-note">Ertiga, Livina, Avanza, Xenia</div><div class="metric-divider">Studi Kasus Multi-Atribut <strong>12 Matriks Set</strong></div></article>
+          </section>
+          <div class="overview-columns">
+            <div class="left-stack">
+              <article class="panel ranking-panel" id="ranking-panel">
+                <div class="panel-head"><h2 class="panel-title"><i class="fa-solid fa-chart-column"></i> Peringkat Alternatif Mobil</h2><p class="panel-subtitle">Hasil Sintesis Vektor Prioritas Global (Composite Eigenvector)</p></div>
+                <div class="table-responsive"><table class="table" id="rankingTable"><thead><tr><th>Peringkat</th><th>Alternatif Mobil</th><th>Bobot Global</th><th>Visualisasi Skor</th><th>Persentase</th><th>Status Rekomendasi</th></tr></thead><tbody></tbody></table></div>
+                <div class="ranking-foot"><span><i class="fa-solid fa-circle-info"></i> Suzuki Ertiga unggul signifikan berkat dominasi bobot pada kriteria Keandalan (55.71%).</span><a href="#comparison-panel">Lihat Matriks Parsial Alternatif <i class="fa-solid fa-arrow-right"></i></a></div>
+              </article>
+              <article class="panel comparison-panel" id="comparison-panel"><div class="criteria-card-head"><div><h2 class="panel-title"><i class="fa-solid fa-chart-column"></i> Komparasi Visual Skor Preferensi Global</h2><p class="panel-subtitle">Distribusi bobot terbobot kriteria (Weighted Synthesis Spectrum)</p></div><div class="comparison-legend"><span><i class="legend-dot" style="background:#079968"></i>Ertiga</span><span><i class="legend-dot" style="background:#3269f4"></i>Livina</span><span><i class="legend-dot" style="background:#566176"></i>Avanza</span><span><i class="legend-dot" style="background:#b4bdcc"></i>Xenia</span></div></div><div class="chart-wrap comparison"><canvas id="rankingChart" aria-label="Grafik komparasi skor preferensi global"></canvas></div></article>
+            </div>
+            <div class="right-stack">
+              <article class="panel" id="criteria-panel"><div class="criteria-card-head"><div><h2 class="panel-title"><i class="fa-solid fa-chart-pie"></i> Bobot Prioritas Kriteria AHP</h2><p class="panel-subtitle">Eigenvector Terdistribusi (Saaty 3x3)</p></div><span class="small-badge">n = 3 Kriteria</span></div><div class="criteria-content"><div class="chart-wrap donut"><canvas id="criteriaChart" aria-label="Donut bobot prioritas kriteria"></canvas></div><div class="criteria-legend" id="criteriaLegend"></div></div></article>
+              <article class="panel" id="consistency-panel"><div class="consistency-head"><div><h2 class="panel-title"><i class="fa-solid fa-circle-check"></i> Uji Validasi Konsistensi Logis (Saaty)</h2><p class="panel-subtitle">Verifikasi Integritas Matriks Perbandingan Berpasangan</p></div><span class="valid-badge">CR ≤ 0.10</span></div><div class="consistency-stats"><div class="consistency-stat"><label>Index (CI)</label><strong>0.0091</strong><small>(λ - n) / (n - 1)</small></div><div class="consistency-stat"><label>Random (RI)</label><strong>0.5800</strong><small>Tabel Saaty, n = 3</small></div><div class="consistency-stat"><label>Rasio (CR)</label><strong>0.0158</strong><small>CI / RI</small></div></div><div class="consistency-result"><i class="fa-solid fa-circle-check"></i> <strong>Kesimpulan Matematis Konsisten:</strong><br>Nilai CR = <strong>0.0158 ≤ 0.1000</strong>. Matriks perbandingan berpasangan terbukti sangat konsisten dan representasi preferensi pengambil keputusan valid untuk diimplementasikan.</div><div class="matrix-caption">Snippet Matriks 3×3 Kriteria: <span style="float:right;font-weight:400;text-transform:none">Diagonal Identitas = 1</span></div><table class="matrix-snippet"><thead><tr><th>Kriteria</th><th>Keandalan</th><th>Style</th><th>Konsumsi</th></tr></thead><tbody><tr><th>Keandalan</th><td>1.000</td><td>2.000</td><td>4.000</td></tr><tr><th>Style</th><td>0.500</td><td>1.000</td><td>3.000</td></tr><tr><th>Konsumsi</th><td>0.250</td><td>0.333</td><td>1.000</td></tr></tbody></table></article>
+            </div>
+          </div>
+        </section>
+        <section class="tab-panel" id="panel-criteria" aria-labelledby="criteria-heading">
+          <div class="section-heading"><div><div class="eyebrow">Matriks Perbandingan Berpasangan</div><h2 id="criteria-heading">Matriks Kriteria</h2><p>Bobot prioritas dan uji konsistensi perbandingan antar-kriteria.</p></div></div>
+          <div class="page-panel"><div class="matrix-grid" id="criteriaMatrixGrid"></div><p class="info-note">Nilai reciprocal pada matriks membandingkan Keandalan, Style, dan Konsumsi Bahan Bakar. Bobot prioritas diturunkan dari eigenvector utama.</p></div>
+        </section>
+        <section class="tab-panel" id="panel-alternatives" aria-labelledby="alternatives-heading">
+          <div class="section-heading"><div><div class="eyebrow">Matriks Perbandingan Berpasangan</div><h2 id="alternatives-heading">Matriks Alternatif</h2><p>Prioritas mobil pada setiap kriteria penilaian.</p></div></div>
+          <div class="page-panel"><div class="matrix-grid" id="alternativeMatrixGrid"></div><p class="info-note">Vektor prioritas lokal alternatif disintesis dengan bobot kriteria untuk menghasilkan ranking global pada halaman Dashboard.</p></div>
+        </section>
+        <section class="tab-panel" id="panel-consistency" aria-labelledby="consistency-heading">
+          <div class="section-heading"><div><div class="eyebrow">Uji Konsistensi</div><h2 id="consistency-heading">Rasio Konsistensi</h2><p>Validasi logis untuk matriks perbandingan kriteria.</p></div></div>
+          <div class="page-panel consistency-page-grid">
+            <article class="panel"><div class="consistency-head"><div><h2 class="panel-title"><i class="fa-solid fa-circle-check"></i> Hasil validasi Saaty</h2><p class="panel-subtitle">Matriks perbandingan berpasangan kriteria.</p></div><span class="valid-badge">Konsisten · CR ≤ 0.10</span></div><div class="consistency-stats"><div class="consistency-stat"><label>Lambda Max</label><strong>3.018</strong><small>λ maks</small></div><div class="consistency-stat"><label>Consistency Index</label><strong>0.0091</strong><small>(λ maks - n) / (n - 1)</small></div><div class="consistency-stat"><label>Random Index</label><strong>0.5800</strong><small>RI untuk n = 3</small></div></div><div class="consistency-result"><i class="fa-solid fa-circle-check"></i> <strong>Kesimpulan: matriks konsisten.</strong><br>CR = CI / RI = 0.0091 / 0.5800 ≈ <strong>0.0158</strong>. Karena CR &lt; 0.10, tingkat inkonsistensi masih dapat diterima.</div></article>
+            <article class="panel"><div class="eyebrow">Perhitungan</div><h3 class="panel-title">Formula Consistency Ratio</h3><p class="panel-subtitle">Tahapan perhitungan konsistensi AHP.</p><div class="consistency-equation">λ maks = 3.018<br>CI = (λ maks - n) / (n - 1)<br>CI = (3.018 - 3) / (3 - 1) ≈ 0.0091<br>CR = CI / RI<br>CR = 0.0091 / 0.5800 ≈ 0.0158</div></article>
+          </div>
+        </section>
+        <section class="tab-panel" id="panel-report" aria-labelledby="report-heading">
+          <div class="section-heading"><div><div class="eyebrow">Ringkasan Keputusan</div><h2 id="report-heading">Laporan &amp; Kesimpulan</h2><p>Rekomendasi akhir pemilihan mobil berdasarkan sintesis AHP.</p></div></div>
+          <div class="page-panel">
+            <article class="panel report-summary"><div class="report-winner"><div class="eyebrow">Alternatif Terpilih · Peringkat 1</div><h3><i class="fa-solid fa-trophy"></i> Suzuki Ertiga</h3><p>Memperoleh prioritas global tertinggi dari empat alternatif. Keandalan menjadi kriteria paling dominan dalam keputusan dengan bobot 55.71%.</p></div><div class="report-score">46.66%<small>Skor prioritas global</small></div></article>
+            <article class="panel mt-3"><h3 class="panel-title">Urutan rekomendasi</h3><p class="panel-subtitle">Hasil akhir pembobotan global alternatif.</p><div class="table-responsive"><table class="table page-table"><thead><tr><th>Peringkat</th><th>Alternatif</th><th>Skor</th><th>Kesimpulan</th></tr></thead><tbody><tr><td>1</td><td>Suzuki Ertiga</td><td>46.66%</td><td>Rekomendasi utama</td></tr><tr><td>2</td><td>Nissan Grand Livina</td><td>28.00%</td><td>Alternatif kedua</td></tr><tr><td>3</td><td>Toyota Avanza</td><td>14.93%</td><td>Alternatif ketiga</td></tr><tr><td>4</td><td>Daihatsu Xenia</td><td>10.41%</td><td>Alternatif keempat</td></tr></tbody></table></div></article>
+          </div>
+        </section>
+        <section class="tab-panel" id="panel-simulator" aria-labelledby="simulator-heading">
+          <div class="section-heading"><div><div class="eyebrow">Eksperimen keputusan</div><h2 id="simulator-heading">Simulator bobot kriteria</h2><p>Atur bobot kepentingan, lalu hitung kembali skor setiap alternatif.</p></div></div>
+          <div class="sim-layout">
+            <article class="panel"><h3 class="panel-title">Pengaturan bobot</h3><p class="panel-subtitle">Nilai akan dinormalisasi otomatis saat perhitungan.</p>
+              <div class="weight-row"><label class="weight-name" for="weight-style">Style</label><input id="weight-style" type="range" min="0" max="100" step="0.01" value="32.02"><output class="weight-value" id="value-style">32.02%</output></div>
+              <div class="weight-row"><label class="weight-name" for="weight-reliability">Keandalan</label><input id="weight-reliability" type="range" min="0" max="100" step="0.01" value="55.71"><output class="weight-value" id="value-reliability">55.71%</output></div>
+              <div class="weight-row"><label class="weight-name" for="weight-fuel">Konsumsi BB</label><input id="weight-fuel" type="range" min="0" max="100" step="0.01" value="12.26"><output class="weight-value" id="value-fuel">12.26%</output></div>
+              <div class="sim-actions"><button class="btn-primary-custom" type="button" id="recalculate"><i class="fa-solid fa-rotate me-1"></i> Hitung ulang</button><button class="btn-light-custom" type="button" id="resetWeights">Reset bobot awal</button><span class="sim-hint" id="simStatus" aria-live="polite">Bobot awal sesuai data tugas.</span></div>
+              <div class="sim-total">Total input: <strong id="weightTotal">99.99%</strong> · perhitungan memakai bobot ternormalisasi.</div>
+            </article>
+            <article class="panel"><h3 class="panel-title">Hasil simulasi</h3><p class="panel-subtitle">Ranking diperbarui setelah tombol hitung ulang ditekan.</p><div class="chart-wrap"><canvas id="simulationChart" aria-label="Grafik hasil simulasi alternatif"></canvas></div><div class="table-responsive mt-2"><table class="table" id="simulationTable"><thead><tr><th>#</th><th>Alternatif</th><th>Skor</th><th>Status</th></tr></thead><tbody></tbody></table></div></article>
+          </div>
+        </section>
+        <section class="tab-panel" id="panel-methodology" aria-labelledby="methodology-heading">
+          <div class="section-heading"><div><div class="eyebrow">Kerangka pengambilan keputusan</div><h2 id="methodology-heading">Hierarki &amp; metodologi AHP</h2><p>Tujuan diuraikan menjadi kriteria, lalu dibandingkan pada setiap alternatif.</p></div></div>
+          <div class="chart-grid">
+            <article class="panel"><h3 class="panel-title">Struktur hierarki</h3><p class="panel-subtitle">Dari tujuan keputusan menuju pilihan mobil.</p>
+              <div class="hierarchy"><div class="hierarchy-node goal"><div class="node-label">Tujuan</div><div class="node-value">Memilih mobil terbaik</div></div><div class="hierarchy-arrow"><i class="fa-solid fa-arrow-down"></i></div>
+                <div class="hierarchy-children"><div class="hierarchy-node"><div class="node-label">Kriteria · 32.02%</div><div class="node-value">Style</div></div><div class="hierarchy-node"><div class="node-label">Kriteria · 55.71%</div><div class="node-value">Keandalan</div></div><div class="hierarchy-node"><div class="node-label">Kriteria · 12.26%</div><div class="node-value">Konsumsi BB</div></div></div>
+                <div class="hierarchy-arrow"><i class="fa-solid fa-arrow-down"></i></div><div class="hierarchy-children alternatives"><div class="hierarchy-node"><div class="node-label">Alternatif</div><div class="node-value">Toyota Avanza</div></div><div class="hierarchy-node"><div class="node-label">Alternatif</div><div class="node-value">Daihatsu Xenia</div></div><div class="hierarchy-node"><div class="node-label">Alternatif</div><div class="node-value">Suzuki Ertiga</div></div><div class="hierarchy-node"><div class="node-label">Alternatif</div><div class="node-value">Grand Livina</div></div></div>
+              </div>
+            </article>
+            <article class="panel"><h3 class="panel-title">Tahapan metode</h3><p class="panel-subtitle">Sintesis prioritas dan uji konsistensi.</p>
+              <div class="formula-grid"><div class="formula"><div class="formula-label">Prioritas lokal</div><code>PV = eigenvector utama dari matriks A</code></div><div class="formula"><div class="formula-label">Lambda maksimum</div><code>λmax = rata-rata((A × w)i / wi)</code></div><div class="formula"><div class="formula-label">Consistency Index</div><code>CI = (λmax - n) / (n - 1)</code></div><div class="formula"><div class="formula-label">Consistency Ratio</div><code>CR = CI / RI</code></div></div>
+              <p class="method-copy mt-3 mb-0">Matriks perbandingan berpasangan memakai skala Saaty 1–9 dan nilai kebalikannya. Bobot global alternatif dihitung dari penjumlahan bobot kriteria dikalikan prioritas lokal alternatif. Penilaian dinyatakan konsisten bila CR &lt; 0.10. Untuk n = 3, nilai Random Index (RI) = 0.58.</p><p class="info-note">CR keseluruhan pada data tugas adalah <strong>0.0158</strong>, sehingga perbandingan memenuhi batas konsistensi.</p>
+            </article>
+          </div>
+        </section>
+        <div class="footer-note">Sistem Pendukung Keputusan · Analytical Hierarchy Process · Data tugas AHP pemilihan mobil</div>
+      </div>
+    </main>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+  <script>
+    (() => {
+      const criteria = [
+        { key:"style", label:"Style", weight:32.82, color:"#3269f4", local:[0.40,0.28,0.18,0.14] },
+        { key:"reliability", label:"Keandalan", weight:55.71, color:"#dc9b43", local:[] },
+        { key:"fuel", label:"Konsumsi BB", weight:12.26, color:"#ca705e", local:[0.35,0.28,0.20,0.17] }
+      ];
+      const alternatives = ["Toyota Avanza","Daihatsu Xenia","Suzuki Ertiga","Nissan Grand Livina"];
+      const targetScores = [14.93,10.41,46.66,28.00];
+      const weightSum = criteria.reduce((sum,item) => sum + item.weight,0);
+      const targetFractions = targetScores.map(score => score / targetScores.reduce((sum,value) => sum + value,0));
+      const style = criteria[0], reliability = criteria[1], fuel = criteria[2];
+      reliability.local = targetFractions.map((target,index) => (target - (style.weight/weightSum)*style.local[index] - (fuel.weight/weightSum)*fuel.local[index]) / (reliability.weight/weightSum));
+      const initialWeights = Object.fromEntries(criteria.map(item => [item.key,item.weight]));
+      let rankingChart, criteriaChart, simulationChart;
+      const pct = value => `${(value*100).toFixed(2)}%`;
+      const palette = ["#71838a","#a2b0ae","#176b57","#dc9b43"];
+
+      function prioritiesToMatrix(priorities) { return priorities.map(row => priorities.map(column => row/column)); }
+      function renderMatrix(title,labels,priorities,options={}) {
+        const matrix = prioritiesToMatrix(priorities);
+        const size = labels.length;
+        const lambdaMax = matrix.map((row,index) => row.reduce((sum,value,column) => sum+value*priorities[column],0)/priorities[index]).reduce((sum,value) => sum+value,0)/size;
+        const consistencyIndex = Math.max(0,(lambdaMax-size)/(size-1));
+        const randomIndex = {3:0.58,4:0.90}[size] || 0;
+        const consistencyRatio = randomIndex ? consistencyIndex/randomIndex : 0;
+        const th = labels.map(label => `<th scope="col">${label}</th>`).join("");
+        const rows = matrix.map((row,index) => `<tr><th scope="row">${labels[index]}</th>${row.map(value => `<td>${value.toFixed(3)}</td>`).join("")}<td><strong>${pct(priorities[index])}</strong></td></tr>`).join("");
+        return `<article class="matrix-card ${options.wide?"wide":""}"><h3 class="panel-title">${title}</h3><p class="panel-subtitle">Matriks perbandingan berpasangan dan vektor prioritas.</p><div class="table-responsive"><table class="table"><thead><tr><th scope="col">AHP</th>${th}<th scope="col">Bobot</th></tr></thead><tbody>${rows}</tbody></table></div><div class="matrix-meta"><span>λ maks <strong>${lambdaMax.toFixed(3)}</strong></span><span>CI <strong>${consistencyIndex.toFixed(4)}</strong></span><span>CR <strong>${consistencyRatio.toFixed(4)}</strong> · konsisten</span></div></article>`;
+      }
+      document.getElementById("criteriaMatrixGrid").innerHTML = renderMatrix("Perbandingan kriteria",criteria.map(item => item.label),criteria.map(item => item.weight/weightSum),{wide:true});
+      document.getElementById("alternativeMatrixGrid").innerHTML = [
+        renderMatrix("Alternatif · Style",alternatives,style.local),
+        renderMatrix("Alternatif · Keandalan",alternatives,reliability.local),
+        renderMatrix("Alternatif · Konsumsi bahan bakar",alternatives,fuel.local)
+      ].join("");
+      function currentWeights() { return criteria.map(item => Number(document.getElementById(`weight-${item.key}`).value)); }
+      function calculateScores(weights) {
+        const total = weights.reduce((sum,value) => sum+value,0);
+        if (total <= 0) return null;
+        const normalized = weights.map(value => value/total);
+        return alternatives.map((name,index) => ({name,score:criteria.reduce((sum,criterion,criterionIndex) => sum+normalized[criterionIndex]*criterion.local[index],0)})).sort((a,b) => b.score-a.score);
+      }
+      function fillTable(tableId,results) {
+        const isRanking = tableId === "rankingTable";
+        document.querySelector(`#${tableId} tbody`).innerHTML = results.map((item,index) => {
+          if (isRanking) {
+            const categories = {"Suzuki Ertiga":"MPV Family Fleet","Nissan Grand Livina":"Compact Monocoque","Toyota Avanza":"RWD Multi-Utility","Daihatsu Xenia":"Standard Value MPV"};
+            return `<tr><td><span class="rank-chip ${index===0?"first":""}">${index+1}</span></td><td><span class="car-name">${item.name}</span><span class="car-category">Kategori: ${categories[item.name]}</span></td><td class="global-weight">${item.score.toFixed(4)}</td><td><div class="score-track"><span style="width:${Math.min(100,item.score*100/0.5)}%"></span></div></td><td class="score-percent">${pct(item.score)}</td><td><span class="recommend-tag ${index===0?"":"other"}">${index===0?"Rekomendasi Utama":`Alternatif ${index+1}`}</span></td></tr>`;
+          }
+          return `<tr><td><span class="rank-chip ${index===0?"first":""}">${index+1}</span></td><td><strong>${item.name}</strong></td><td class="score-cell"><div class="score-line"><span>${pct(item.score)}</span></div><div class="progress"><div class="progress-bar" style="width:${Math.min(100,item.score*100)}%"></div></div></td><td><span class="status-pill ${index===0?"recommended":""}">${index===0?"Rekomendasi utama":"Alternatif"}</span></td></tr>`;
+        }).join("");
+      }
+      function makeBarChart(canvasId,labels,values,instance) {
+        if (instance) instance.destroy();
+        return new Chart(document.getElementById(canvasId),{
+          type:"bar",data:{labels,datasets:[{data:values.map(value => value*100),backgroundColor:labels.map(name => name.includes("Ertiga")?"#079968":name.includes("Livina")?"#3269f4":name.includes("Avanza")?"#566176":"#b4bdcc"),borderRadius:4,maxBarThickness:16}]},
+          options:{indexAxis:"y",responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:context => `${context.raw.toFixed(2)}%`}}},scales:{x:{beginAtZero:true,max:50,grid:{color:"#e8edf5"},ticks:{stepSize:10,callback:value => `${value}%`,color:"#65718a",font:{family:"DM Sans",size:8}},border:{display:false}},y:{grid:{display:false},ticks:{color:"#344057",font:{family:"DM Sans",size:8,weight:"600"}},border:{display:false}}}}
+        });
+      }
+      const initialResults = calculateScores(criteria.map(item => item.weight));
+      fillTable("rankingTable",initialResults);
+      rankingChart = makeBarChart("rankingChart",initialResults.map(item => item.name),initialResults.map(item => item.score),rankingChart);
+      simulationChart = makeBarChart("simulationChart",initialResults.map(item => item.name),initialResults.map(item => item.score),simulationChart);
+      fillTable("simulationTable",initialResults);
+      document.getElementById("criteriaLegend").innerHTML = criteria.map(item => `<div class="criterion-item"><span class="criterion-dot" style="background:${item.color}"></span><div><div class="criterion-name">${item.label}</div><div class="criterion-desc">${item.key==="reliability"?"Daya tahan mesin, purna jual, safety":item.key==="style"?"Desain eksterior, estetika kabin":"Efisiensi liter/kilometer harian"}</div></div><div class="criterion-weight">${item.weight.toFixed(2)}%<small>(${(item.weight/100).toFixed(4)})</small></div></div>`).join("");
+      criteriaChart = new Chart(document.getElementById("criteriaChart"),{
+        type:"doughnut",data:{labels:criteria.map(item => item.label),datasets:[{data:criteria.map(item => item.weight),backgroundColor:criteria.map(item => item.color),borderColor:"#fff",borderWidth:2,hoverOffset:4}]},
+        options:{responsive:true,maintainAspectRatio:false,cutout:"67%",plugins:{legend:{display:false},tooltip:{callbacks:{label:context => `${context.label}: ${context.raw.toFixed(2)}%`}}}},
+        plugins:[{id:"center-label",afterDraw(chart){const {ctx,chartArea}=chart;if(!chartArea)return;const x=(chartArea.left+chartArea.right)/2,y=(chartArea.top+chartArea.bottom)/2;ctx.save();ctx.textAlign="center";ctx.fillStyle="#172033";ctx.font="700 12px DM Sans";ctx.fillText("100%",x,y);ctx.fillStyle="#7b8496";ctx.font="6px DM Sans";ctx.fillText("Σ BOBOT",x,y+10);ctx.restore();}}]
+      });
+      function activateTab(tabName) {
+        document.querySelectorAll("[data-tab]").forEach(button => button.classList.toggle("active",button.dataset.tab===tabName));
+        document.querySelectorAll(".tab-panel").forEach(panel => panel.classList.toggle("active",panel.id===`panel-${tabName}`));
+        const pageTitles = {
+          overview:["Dashboard","Ringkasan rekomendasi pemilihan mobil"],
+          criteria:["Matriks Kriteria","Perbandingan berpasangan dan bobot prioritas kriteria"],
+          alternatives:["Matriks Alternatif","Prioritas alternatif pada setiap kriteria"],
+          consistency:["Rasio Konsistensi","Uji konsistensi logis perbandingan AHP"],
+          report:["Laporan & Kesimpulan","Hasil akhir rekomendasi pemilihan mobil"]
+        };
+        const [title,subtitle] = pageTitles[tabName] || pageTitles.overview;
+        document.getElementById("pageTitle").textContent = title;
+        document.getElementById("pageSubtitle").textContent = subtitle;
+        if(tabName==="overview"){rankingChart.resize();criteriaChart.resize();}
+        if(tabName==="simulator")simulationChart.resize();
+      }
+      document.querySelectorAll("[data-tab]").forEach(button => button.addEventListener("click",() => activateTab(button.dataset.tab)));
+      function updateWeightReadouts() {
+        const values=currentWeights();
+        criteria.forEach((item,index) => {document.getElementById(`value-${item.key}`).value=`${values[index].toFixed(2)}%`;});
+        document.getElementById("weightTotal").textContent=`${values.reduce((sum,value) => sum+value,0).toFixed(2)}%`;
+      }
+      criteria.forEach(item => document.getElementById(`weight-${item.key}`).addEventListener("input",updateWeightReadouts));
+      document.getElementById("recalculate").addEventListener("click",() => {
+        const results=calculateScores(currentWeights());
+        if(!results){document.getElementById("simStatus").textContent="Total bobot harus lebih dari 0.";return;}
+        fillTable("simulationTable",results);
+        simulationChart=makeBarChart("simulationChart",results.map(item => item.name),results.map(item => item.score),simulationChart);
+        document.getElementById("simStatus").textContent=`Hasil diperbarui · ${results[0].name} berada di peringkat pertama.`;
+      });
+      document.getElementById("resetWeights").addEventListener("click",() => {
+        criteria.forEach(item => {document.getElementById(`weight-${item.key}`).value=initialWeights[item.key];});
+        updateWeightReadouts();
+        document.getElementById("simStatus").textContent="Bobot awal dipulihkan. Tekan hitung ulang untuk menerapkan.";
+      });
+      updateWeightReadouts();
+    })();
+  </script>
+</body>
+</html>

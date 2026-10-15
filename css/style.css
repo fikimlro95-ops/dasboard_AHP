@@ -1,0 +1,2055 @@
+/* ==========================================================================
+   AHP DECISION HUB - AI FINANCE DASHBOARD DESIGN SYSTEM
+   Inspirasi Desain: AI Finance Dashboard (Smarter Money Management)
+   Aestetik: Dark Obsidian, Ambient Neon Glows, Frosted Glass, Smooth Pill Nav
+   Sesuai Studi Kasus Excel: AHP_Studi_Kasus_Mobil (1).xlsx
+   ========================================================================== */
+
+:root {
+  /* Color Palette - AI Finance Dark Mode (Default) */
+  --bg-primary: #080c15;          /* Deep space obsidian */
+  --bg-secondary: #0d1322;        /* Dark titanium surface */
+  --bg-card: rgba(15, 22, 38, 0.72); /* High-tech frosted glass */
+  --bg-card-solid: #101728;
+  --bg-card-hover: rgba(22, 32, 54, 0.85);
+  --bg-glass: rgba(255, 255, 255, 0.03);
+  
+  /* Borders */
+  --border-color: rgba(255, 255, 255, 0.08);
+  --border-light: rgba(255, 255, 255, 0.14);
+  --border-focus: rgba(0, 242, 254, 0.5);
+
+  /* Typography Colors */
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+
+  /* Accent Colors (AI Finance Signature) */
+  --accent-cyan: #00f2fe;        /* Neon Cyan (AI Tech) */
+  --accent-cyan-glow: rgba(0, 242, 254, 0.25);
+  --accent-primary: #6366f1;     /* Electric Indigo */
+  --accent-primary-hover: #4f46e5;
+  --accent-purple: #8b5cf6;      /* AI Violet */
+  --accent-success: #10b981;     /* Mint Emerald (Financial Metric / Konsisten) */
+  --accent-warning: #f59e0b;     /* Radiant Gold / Amber (Winner) */
+  --accent-danger: #ef4444;      /* Crimson Alert */
+
+  /* Gradients */
+  --grad-primary: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  --grad-cyan: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+  --grad-gold: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+  --grad-emerald: linear-gradient(135deg, #34d399 0%, #059669 100%);
+  --grad-card: linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0) 100%);
+  --grad-winner: linear-gradient(135deg, rgba(99, 102, 241, 0.12) 0%, rgba(0, 242, 254, 0.06) 50%, rgba(139, 92, 246, 0.12) 100%);
+
+  /* Excel Theme Colors (Fintech Styled) */
+  --cell-input-bg: rgba(16, 185, 129, 0.12);     /* Green (Excel Hijau) */
+  --cell-input-border: #10b981;
+  --cell-input-text: #34d399;
+  --cell-reciprocal-bg: rgba(6, 182, 212, 0.12); /* Blue (Excel Biru) */
+  --cell-reciprocal-border: #06b6d4;
+  --cell-reciprocal-text: #38bdf8;
+  --cell-diagonal-bg: rgba(148, 163, 184, 0.1);
+
+  /* Shadows & Radius */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.25);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 25px rgba(99, 102, 241, 0.25);
+  --shadow-glow-cyan: 0 0 25px rgba(0, 242, 254, 0.2);
+  --shadow-glow-gold: 0 0 25px rgba(245, 158, 11, 0.25);
+  
+  --radius-xs: 8px;
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 20px;
+  --radius-xl: 26px;
+  --radius-full: 9999px;
+
+  /* Dimensions */
+  --sidebar-width: 270px;
+
+  /* Transitions */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-slow: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Light Mode Overrides (Fintech Clean Porcelain) */
+[data-theme="light"] {
+  --bg-primary: #f8fafc;
+  --bg-secondary: #f1f5f9;
+  --bg-card: rgba(255, 255, 255, 0.92);
+  --bg-card-solid: #ffffff;
+  --bg-card-hover: #ffffff;
+  --bg-glass: rgba(0, 0, 0, 0.02);
+  --border-color: rgba(226, 232, 240, 0.9);
+  --border-light: rgba(203, 213, 225, 0.8);
+  --border-focus: rgba(99, 102, 241, 0.5);
+
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+
+  --shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 6px 18px rgba(0, 0, 0, 0.07);
+  --shadow-lg: 0 14px 35px rgba(0, 0, 0, 0.1);
+  --shadow-glow: 0 0 20px rgba(99, 102, 241, 0.15);
+  --shadow-glow-cyan: 0 0 20px rgba(6, 182, 212, 0.15);
+
+  --cell-input-bg: #ecfdf5;
+  --cell-input-border: #10b981;
+  --cell-input-text: #065f46;
+  --cell-reciprocal-bg: #f0f9ff;
+  --cell-reciprocal-border: #0ea5e9;
+  --cell-reciprocal-text: #0369a1;
+  --cell-diagonal-bg: #f1f5f9;
+
+  --grad-winner: linear-gradient(135deg, rgba(99, 102, 241, 0.06) 0%, rgba(6, 182, 212, 0.05) 100%);
+}
+
+/* CSS Reset & Base */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  background: 
+    radial-gradient(circle at 5% 0%, rgba(99, 102, 241, 0.14) 0%, transparent 45%),
+    radial-gradient(circle at 95% 15%, rgba(0, 242, 254, 0.1) 0%, transparent 40%),
+    radial-gradient(circle at 50% 90%, rgba(139, 92, 246, 0.08) 0%, transparent 50%),
+    var(--bg-primary);
+  background-attachment: fixed;
+  overflow-x: hidden;
+}
+
+[data-theme="light"] body {
+  background: 
+    radial-gradient(circle at 10% 0%, rgba(99, 102, 241, 0.06) 0%, transparent 45%),
+    radial-gradient(circle at 90% 20%, rgba(6, 182, 212, 0.05) 0%, transparent 40%),
+    var(--bg-primary);
+  background-attachment: fixed;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+
+p {
+  color: var(--text-secondary);
+}
+
+/* Sleek Minimalist Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.2);
+  border-radius: var(--radius-full);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.4);
+}
+
+/* ==========================================================================
+   APP LAYOUT (SIDEBAR KIRI + MAIN CONTENT)
+   ========================================================================== */
+.app-layout {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+  position: relative;
+}
+
+/* ==========================================================================
+   LEFT SIDEBAR (AI FINANCE GLASS PANEL)
+   ========================================================================== */
+.app-sidebar {
+  width: var(--sidebar-width);
+  flex-shrink: 0;
+  background: var(--bg-card);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-right: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  z-index: 100;
+  padding: 1.35rem 1.15rem;
+  transition: width var(--transition-normal), padding var(--transition-normal), border-color var(--transition-normal);
+}
+
+/* Desktop Collapsed Sidebar State (Tutup Bar) */
+.app-layout.sidebar-collapsed .app-sidebar {
+  width: 0 !important;
+  padding: 0 !important;
+  border-right-color: transparent !important;
+  overflow: hidden !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* Sidebar Header */
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 1.25rem;
+}
+
+.brand-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.brand-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(135deg, #00f2fe 0%, #6366f1 50%, #8b5cf6 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(0, 242, 254, 0.35);
+  color: white;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.brand-icon::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: calc(var(--radius-sm) + 1px);
+  background: linear-gradient(135deg, rgba(255,255,255,0.4), transparent);
+  pointer-events: none;
+}
+
+.brand-icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.brand-text h1 {
+  font-size: 1.1rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  background: linear-gradient(90deg, #ffffff 0%, #cbd5e1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1.2;
+}
+
+[data-theme="light"] .brand-text h1 {
+  background: linear-gradient(90deg, #0f172a 0%, #334155 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.brand-subtitle {
+  font-size: 0.725rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 2px;
+  font-weight: 500;
+}
+
+/* Sidebar Close Button [X] */
+.sidebar-close-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border-radius: var(--radius-xs);
+  background: var(--bg-glass);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.sidebar-close-btn:hover {
+  background: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+  border-color: rgba(239, 68, 68, 0.4);
+  transform: scale(1.05);
+}
+
+/* Sidebar Navigation Items */
+.sidebar-menu-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-section-title {
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  margin-bottom: 0.65rem;
+  padding: 0 0.5rem;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.sidebar-nav .tab-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.75rem 1rem;
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  white-space: normal;
+  line-height: 1.3;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+}
+
+.sidebar-nav .tab-btn:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.06);
+  transform: translateX(4px);
+}
+
+[data-theme="light"] .sidebar-nav .tab-btn:hover {
+  color: #0f172a;
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.sidebar-nav .tab-btn.active {
+  color: #ffffff;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.95), rgba(139, 92, 246, 0.95));
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+  font-weight: 700;
+  transform: translateX(0);
+}
+
+.sidebar-nav .tab-btn svg {
+  width: 19px;
+  height: 19px;
+  flex-shrink: 0;
+}
+
+/* Sidebar Footer (AI Smart Engine Box) */
+.sidebar-footer {
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.sidebar-info-card {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(0, 242, 254, 0.05) 100%), var(--bg-secondary);
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  border-radius: var(--radius-md);
+  padding: 0.95rem;
+  font-size: 0.775rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.sidebar-info-card::before {
+  content: '';
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  width: 60px;
+  height: 60px;
+  background: radial-gradient(circle, rgba(0, 242, 254, 0.2) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.info-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.45rem;
+}
+
+.info-card-title {
+  font-weight: 700;
+  color: var(--text-primary);
+  font-size: 0.825rem;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.info-card-desc {
+  color: var(--text-muted);
+  font-size: 0.725rem;
+  margin-top: 2px;
+}
+
+.sidebar-backdrop {
+  display: none;
+}
+
+/* ==========================================================================
+   MAIN CONTENT AREA
+   ========================================================================== */
+.main-content-area {
+  flex: 1;
+  min-width: 0; /* CRITICAL: Mencegah overflow */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Top App Header (AI Finance Floating Bar - Swipeable & Scrollable) */
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 80;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  background: rgba(13, 19, 34, 0.88);
+  border-bottom: 1px solid var(--border-color);
+  padding: 0.75rem 1.35rem;
+  transition: background var(--transition-normal), border-color var(--transition-normal);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1.15rem;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 242, 254, 0.45) transparent;
+  cursor: grab;
+}
+
+.app-header.header-swiping {
+  cursor: grabbing !important;
+  user-select: none;
+}
+
+/* Custom sleek micro-scrollbar for top navbar swipe */
+.app-header::-webkit-scrollbar {
+  height: 4px;
+}
+
+.app-header::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: var(--radius-full);
+}
+
+.app-header::-webkit-scrollbar-thumb {
+  background: linear-gradient(90deg, #00f2fe 0%, #6366f1 100%);
+  border-radius: var(--radius-full);
+}
+
+.app-header::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(90deg, #38bdf8 0%, #818cf8 100%);
+}
+
+[data-theme="light"] .app-header {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+[data-theme="light"] .app-header::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.header-left-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  flex-shrink: 0;
+}
+
+/* Hamburger Menu Toggle Button */
+/* Tersembunyi di desktop saat sidebar sedang terbuka */
+.menu-toggle-btn {
+  display: none !important;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border-radius: var(--radius-sm);
+  background: var(--bg-glass);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.menu-toggle-btn:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
+  transform: scale(1.05);
+}
+
+/* Tampil di desktop HANYA setelah bar/sidebar ditutup */
+.app-layout.sidebar-collapsed .menu-toggle-btn {
+  display: inline-flex !important;
+  background: rgba(99, 102, 241, 0.15);
+  border-color: var(--accent-primary);
+  color: #818cf8;
+  box-shadow: 0 0 12px rgba(99, 102, 241, 0.3);
+  animation: fadeIn 0.25s ease;
+}
+
+/* Breadcrumb Navigation */
+.page-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.88rem;
+  white-space: nowrap;
+}
+
+.breadcrumb-item {
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.breadcrumb-separator {
+  color: var(--text-muted);
+}
+
+.breadcrumb-current {
+  color: var(--text-primary);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+/* System Live Status Badge (AI Finance Style) */
+.system-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.25rem 0.65rem;
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  border-radius: var(--radius-full);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #34d399;
+  white-space: nowrap;
+}
+
+.status-pulse-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #10b981;
+  box-shadow: 0 0 8px #10b981;
+  animation: pulseDot 2s infinite ease-in-out;
+}
+
+@keyframes pulseDot {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.3); opacity: 0.5; }
+}
+
+/* Global Header Search Bar (AI Finance Style) */
+.header-search-wrapper {
+  flex: 1;
+  max-width: 380px;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.header-search-wrapper .search-icon {
+  position: absolute;
+  left: 0.95rem;
+  color: var(--text-muted);
+  pointer-events: none;
+  transition: color var(--transition-fast);
+}
+
+.header-search-input {
+  width: 100%;
+  padding: 0.55rem 4.5rem 0.55rem 2.4rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-full);
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 0.815rem;
+  outline: none;
+  transition: all var(--transition-fast);
+}
+
+.header-search-input::placeholder {
+  color: var(--text-muted);
+  font-size: 0.785rem;
+}
+
+.header-search-input:focus {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 16px rgba(0, 242, 254, 0.25);
+}
+
+.header-search-wrapper .kbd-badge {
+  position: absolute;
+  right: 0.75rem;
+  padding: 0.15rem 0.45rem;
+  font-size: 0.68rem;
+  font-family: inherit;
+  font-weight: 700;
+  color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  pointer-events: none;
+}
+
+.badge-excel {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: rgba(16, 185, 129, 0.14);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  padding: 0.2rem 0.55rem;
+  border-radius: var(--radius-full);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+/* Header Action Buttons (Pill Fintech Style) */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.55rem 0.95rem;
+  font-size: 0.815rem;
+  font-weight: 600;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-color);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.btn:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border-light);
+  transform: translateY(-1px);
+}
+
+.btn-primary {
+  background: var(--grad-primary);
+  color: white;
+  border: none;
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
+}
+
+.btn-primary:hover {
+  box-shadow: 0 6px 18px rgba(99, 102, 241, 0.45);
+}
+
+.btn-success {
+  background: var(--grad-emerald);
+  color: white;
+  border: none;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3);
+}
+
+.btn-icon-only {
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border-radius: var(--radius-full);
+}
+
+.btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Main Body Container */
+.main-body-container {
+  padding: 1.75rem 2rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* ==========================================================================
+   KPI BANNER CARDS (AI FINANCE STAT CARDS)
+   ========================================================================== */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 1.25rem;
+}
+
+.kpi-card {
+  background: var(--grad-card), var(--bg-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 1.35rem 1.4rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-normal);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.kpi-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+}
+
+.kpi-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.kpi-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.65rem;
+}
+
+.kpi-title {
+  font-size: 0.725rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+}
+
+.kpi-icon-pill {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.05rem;
+  transition: transform var(--transition-fast);
+}
+
+.kpi-card:hover .kpi-icon-pill {
+  transform: scale(1.08);
+}
+
+.kpi-icon-gold {
+  background: rgba(245, 158, 11, 0.16);
+  color: var(--accent-warning);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.kpi-icon-blue {
+  background: rgba(0, 242, 254, 0.14);
+  color: var(--accent-cyan);
+  border: 1px solid rgba(0, 242, 254, 0.3);
+}
+
+.kpi-icon-green {
+  background: rgba(16, 185, 129, 0.16);
+  color: var(--accent-success);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.kpi-icon-purple {
+  background: rgba(139, 92, 246, 0.16);
+  color: var(--accent-purple);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+}
+
+.kpi-value-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-bottom: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.kpi-value {
+  font-size: 1.75rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--text-primary);
+}
+
+.kpi-subtext {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.kpi-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.2rem 0.65rem;
+  border-radius: var(--radius-full);
+  font-size: 0.725rem;
+  font-weight: 700;
+}
+
+.kpi-badge-winner {
+  background: rgba(245, 158, 11, 0.18);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.35);
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.2);
+}
+
+.kpi-badge-success {
+  background: rgba(16, 185, 129, 0.18);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.35);
+}
+
+/* KPI Mini Progress Track (AI Finance Metric Bar) */
+.kpi-progress-track {
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-full);
+  margin-top: 0.75rem;
+  overflow: hidden;
+}
+
+[data-theme="light"] .kpi-progress-track {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.kpi-progress-bar {
+  height: 100%;
+  border-radius: var(--radius-full);
+  transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ==========================================================================
+   TAB PANES & ANIMATION
+   ========================================================================== */
+.tab-pane {
+  display: none;
+  animation: fadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.tab-pane.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ==========================================================================
+   CARD SYSTEM (AI FINANCE GLASS CONTAINER)
+   ========================================================================== */
+.card {
+  background: var(--grad-card), var(--bg-card);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: 1.65rem 1.85rem;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-normal);
+  margin-bottom: 1.65rem;
+  position: relative;
+}
+
+.card:last-child {
+  margin-bottom: 0;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.35rem;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.card-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  letter-spacing: -0.015em;
+}
+
+.card-title-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(0, 242, 254, 0.15));
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  color: var(--accent-cyan);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+}
+
+.card-desc {
+  font-size: 0.815rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* ==========================================================================
+   AI COPILOT SMART ADVISOR CARD (Inspirasi AI Finance Behance)
+   ========================================================================== */
+.ai-copilot-card {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.12) 0%, rgba(0, 242, 254, 0.06) 50%, rgba(139, 92, 246, 0.1) 100%), var(--bg-card);
+  border: 1px solid rgba(99, 102, 241, 0.35);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(99, 102, 241, 0.15);
+  margin-bottom: 1.65rem;
+}
+
+.ai-copilot-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #00f2fe 0%, #6366f1 50%, #8b5cf6 100%);
+}
+
+.ai-copilot-card::after {
+  content: '';
+  position: absolute;
+  bottom: -40px;
+  right: -40px;
+  width: 140px;
+  height: 140px;
+  background: radial-gradient(circle, rgba(0, 242, 254, 0.2) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.ai-copilot-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.ai-copilot-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.ai-copilot-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(135deg, #00f2fe 0%, #6366f1 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  box-shadow: 0 4px 16px rgba(0, 242, 254, 0.35);
+  flex-shrink: 0;
+}
+
+.ai-copilot-title {
+  font-size: 1.08rem;
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  color: var(--text-primary);
+}
+
+.ai-copilot-subtitle {
+  font-size: 0.725rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.ai-copilot-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.25rem 0.75rem;
+  background: rgba(0, 242, 254, 0.12);
+  border: 1px solid rgba(0, 242, 254, 0.3);
+  border-radius: var(--radius-full);
+  font-size: 0.725rem;
+  font-weight: 700;
+  color: #38bdf8;
+}
+
+.ai-copilot-text {
+  font-size: 0.885rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin-bottom: 1.25rem;
+}
+
+.ai-copilot-text strong {
+  color: var(--text-primary);
+}
+
+.ai-copilot-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+  padding-top: 0.85rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.ai-actions-label {
+  font-size: 0.725rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-right: 0.35rem;
+}
+
+.ai-action-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.85rem;
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--text-primary);
+  font-size: 0.785rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.ai-action-chip:hover {
+  background: rgba(99, 102, 241, 0.2);
+  border-color: var(--accent-primary);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+/* ==========================================================================
+   WINNER SPOTLIGHT CARD (AI INSIGHTS HERO)
+   ========================================================================== */
+.winner-spotlight {
+  background: var(--grad-winner), var(--bg-card);
+  border: 1px solid rgba(99, 102, 241, 0.35);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 35px rgba(99, 102, 241, 0.15);
+}
+
+.winner-spotlight::before {
+  content: '';
+  position: absolute;
+  top: -60px;
+  right: -60px;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(0, 242, 254, 0.25) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.winner-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 1.75rem;
+  align-items: center;
+}
+
+.winner-badge-ribbon {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: var(--grad-gold);
+  color: #0b0f19;
+  padding: 0.25rem 0.85rem;
+  border-radius: var(--radius-full);
+  font-size: 0.725rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.75rem;
+  box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35);
+}
+
+.winner-car-name {
+  font-size: 2.1rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin-bottom: 0.25rem;
+  background: linear-gradient(90deg, #ffffff 0%, #e2e8f0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+[data-theme="light"] .winner-car-name {
+  background: linear-gradient(90deg, #0f172a 0%, #334155 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.winner-score-pill {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #fbbf24;
+  margin-bottom: 0.85rem;
+  letter-spacing: -0.01em;
+}
+
+.winner-reason-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  font-size: 0.84rem;
+}
+
+.winner-reason-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  color: var(--text-secondary);
+  background: rgba(255, 255, 255, 0.02);
+  padding: 0.55rem 0.85rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+}
+
+.winner-reason-list li svg {
+  color: #34d399;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* Winner Breakdown Meters */
+.winner-breakdown-meters {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  margin-top: 0.75rem;
+  padding: 0.85rem 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+}
+
+.winner-meter-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.winner-meter-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.735rem;
+  color: var(--text-secondary);
+}
+
+.winner-meter-track {
+  width: 100%;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+[data-theme="light"] .winner-meter-track {
+  background: rgba(0, 0, 0, 0.08);
+}
+
+.winner-meter-fill {
+  height: 100%;
+  border-radius: var(--radius-full);
+  transition: width 0.6s ease;
+}
+
+.fill-style {
+  background: var(--grad-primary);
+}
+
+.fill-keandalan {
+  background: var(--grad-emerald);
+}
+
+.fill-bbm {
+  background: var(--grad-gold);
+}
+
+/* Search Highlighting */
+.card-search-dimmed {
+  opacity: 0.25;
+  filter: grayscale(0.6);
+  pointer-events: none;
+  transform: scale(0.98);
+}
+
+.card-search-highlight {
+  border-color: var(--accent-cyan) !important;
+  box-shadow: 0 0 25px rgba(0, 242, 254, 0.35) !important;
+}
+
+/* ==========================================================================
+   4 ALTERNATIVE CARDS GRID (FINTECH ASSET CARDS)
+   ========================================================================== */
+.alt-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 1.65rem;
+}
+
+.alt-card {
+  background: var(--grad-card), var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 1.35rem;
+  position: relative;
+  transition: all var(--transition-normal);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.alt-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(99, 102, 241, 0.4);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+}
+
+.alt-card.rank-1 {
+  border-color: rgba(245, 158, 11, 0.45);
+  background: linear-gradient(180deg, rgba(245, 158, 11, 0.06) 0%, var(--bg-card) 100%);
+  box-shadow: 0 8px 24px rgba(245, 158, 11, 0.12);
+}
+
+.alt-card.rank-2 {
+  border-color: rgba(0, 242, 254, 0.35);
+}
+
+.alt-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+}
+
+.alt-rank-tag {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 0.9rem;
+}
+
+.rank-tag-1 {
+  background: var(--grad-gold);
+  color: #0b0f19;
+  box-shadow: 0 4px 14px rgba(245, 158, 11, 0.4);
+}
+
+.rank-tag-2 {
+  background: var(--grad-cyan);
+  color: #0b0f19;
+  box-shadow: 0 4px 14px rgba(0, 242, 254, 0.35);
+}
+
+.rank-tag-3 {
+  background: linear-gradient(135deg, #64748b, #475569);
+  color: white;
+}
+
+.rank-tag-4 {
+  background: linear-gradient(135deg, #475569, #334155);
+  color: #cbd5e1;
+}
+
+.alt-name {
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.alt-brand {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.alt-final-score {
+  font-size: 1.65rem;
+  font-weight: 800;
+  margin: 0.5rem 0;
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  letter-spacing: -0.02em;
+}
+
+.alt-final-score span {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+/* Criteria Contribution Bars in Car Card */
+.alt-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  margin-top: 0.85rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.bar-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.bar-label-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.progress-track {
+  width: 100%;
+  height: 7px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+[data-theme="light"] .progress-track {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: var(--radius-full);
+  transition: width var(--transition-slow);
+}
+
+.fill-style { background: linear-gradient(90deg, #6366f1, #818cf8); }
+.fill-keandalan { background: linear-gradient(90deg, #10b981, #34d399); }
+.fill-bbm { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+
+/* Charts Grid */
+.charts-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 1.65rem;
+}
+
+.chart-box {
+  position: relative;
+  height: 310px;
+  width: 100%;
+}
+
+/* ==========================================================================
+   FINTECH DATA TABLES (EXCEL FAITHFUL & RESPONSIVE)
+   ========================================================================== */
+.table-responsive {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  background: var(--bg-card);
+  -webkit-overflow-scrolling: touch;
+}
+
+.ahp-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+  font-size: 0.835rem;
+  white-space: nowrap;
+}
+
+.ahp-table th, .ahp-table td {
+  padding: 0.75rem 0.85rem;
+  border: 1px solid var(--border-color);
+}
+
+.ahp-table thead th {
+  background: rgba(99, 102, 241, 0.08);
+  color: var(--text-primary);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.725rem;
+  letter-spacing: 0.05em;
+}
+
+.ahp-table th.header-kriteria {
+  background: rgba(99, 102, 241, 0.15);
+  color: var(--text-primary);
+}
+
+.ahp-table tr:hover td {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+/* Excel Style Coloring */
+.cell-input {
+  background: var(--cell-input-bg) !important;
+  color: var(--cell-input-text);
+  font-weight: 700;
+  border: 1px solid var(--cell-input-border) !important;
+}
+
+.cell-reciprocal {
+  background: var(--cell-reciprocal-bg) !important;
+  color: var(--cell-reciprocal-text);
+  font-weight: 600;
+  border: 1px solid var(--cell-reciprocal-border) !important;
+}
+
+.cell-diagonal {
+  background: var(--cell-diagonal-bg) !important;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.cell-total-row {
+  background: rgba(99, 102, 241, 0.1) !important;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.cell-weight {
+  background: rgba(245, 158, 11, 0.12) !important;
+  color: #fbbf24;
+  font-weight: 700;
+}
+
+.cell-eigen {
+  background: rgba(139, 92, 246, 0.12) !important;
+  color: #c084fc;
+  font-weight: 700;
+}
+
+/* Interactive Matrix Input */
+.matrix-input {
+  width: 65px;
+  padding: 0.35rem 0.4rem;
+  text-align: center;
+  font-weight: 700;
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--cell-input-border);
+  background: var(--bg-card);
+  color: var(--cell-input-text);
+  font-family: inherit;
+  font-size: 0.835rem;
+  transition: all var(--transition-fast);
+}
+
+.matrix-input:focus {
+  outline: none;
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 0 3px rgba(0, 242, 254, 0.25);
+}
+
+/* Excel Legend Bar */
+.excel-legend-bar {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0.85rem 1.15rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  margin-bottom: 1.35rem;
+  flex-wrap: wrap;
+  font-size: 0.8rem;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.legend-chip {
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.legend-chip.green {
+  background: var(--cell-input-bg);
+  border: 1px solid var(--cell-input-border);
+}
+
+.legend-chip.blue {
+  background: var(--cell-reciprocal-bg);
+  border: 1px solid var(--cell-reciprocal-border);
+}
+
+.legend-chip.gray {
+  background: var(--cell-diagonal-bg);
+  border: 1px solid var(--text-muted);
+}
+
+/* Consistency Result Box */
+.consistency-box {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 1.15rem 1.35rem;
+  margin-top: 1.35rem;
+  align-items: center;
+}
+
+.consistency-stat {
+  display: flex;
+  flex-direction: column;
+}
+
+.consistency-stat .label {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.consistency-stat .val {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.consistency-status-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-full);
+  font-size: 0.825rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.status-consistent {
+  background: rgba(16, 185, 129, 0.16);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.4);
+}
+
+.status-inconsistent {
+  background: rgba(239, 68, 68, 0.16);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.4);
+}
+
+/* Alert Box */
+.alert-box {
+  background: rgba(99, 102, 241, 0.08);
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  border-left: 4px solid var(--accent-cyan);
+  border-radius: var(--radius-md);
+  padding: 0.95rem 1.25rem;
+  margin-bottom: 1.35rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.alert-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  font-size: 0.835rem;
+}
+
+.alert-content svg {
+  color: var(--accent-cyan);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.alert-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* Sub-Tab Matrix Switcher */
+.subtabs-nav {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.35rem;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0.65rem;
+  overflow-x: auto;
+}
+
+.subtab-btn {
+  padding: 0.55rem 1rem;
+  font-size: 0.825rem;
+  font-weight: 600;
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid transparent;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+.subtab-btn:hover {
+  color: var(--text-primary);
+  background: var(--bg-glass);
+}
+
+.subtab-btn.active {
+  background: rgba(99, 102, 241, 0.18);
+  color: #818cf8;
+  border-color: rgba(99, 102, 241, 0.4);
+  font-weight: 700;
+}
+
+/* ==========================================================================
+   SENSITIVITY SIMULATOR (WHAT-IF CONTROLS)
+   ========================================================================== */
+.sensitivity-panel {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 1.65rem;
+  align-items: start;
+}
+
+.slider-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 1.35rem;
+}
+
+.slider-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.slider-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.84rem;
+  font-weight: 600;
+}
+
+.slider-val-badge {
+  font-size: 0.775rem;
+  padding: 0.2rem 0.55rem;
+  border-radius: var(--radius-full);
+  font-weight: 700;
+}
+
+.range-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.1);
+  outline: none;
+  transition: background var(--transition-fast);
+}
+
+.range-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--accent-cyan);
+  cursor: pointer;
+  box-shadow: 0 0 12px rgba(0, 242, 254, 0.6);
+  transition: transform var(--transition-fast);
+}
+
+.range-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+
+/* Preset Buttons */
+.preset-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.95rem;
+}
+
+.preset-btn {
+  font-size: 0.75rem;
+  padding: 0.35rem 0.65rem;
+  border-radius: var(--radius-full);
+  background: var(--bg-glass);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.preset-btn:hover {
+  color: var(--text-primary);
+  border-color: var(--accent-cyan);
+  background: rgba(0, 242, 254, 0.1);
+}
+
+/* ==========================================================================
+   HIERARCHY TREE VIEW
+   ========================================================================== */
+.hierarchy-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.65rem;
+  padding: 1.5rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  position: relative;
+  overflow: hidden;
+}
+
+.tree-level {
+  display: flex;
+  justify-content: center;
+  gap: 1.35rem;
+  width: 100%;
+  flex-wrap: wrap;
+  z-index: 2;
+}
+
+.tree-node {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 0.85rem 1.25rem;
+  min-width: 160px;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-normal);
+  position: relative;
+}
+
+.tree-node:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent-cyan);
+  box-shadow: 0 8px 25px rgba(0, 242, 254, 0.2);
+}
+
+.tree-node.goal-node {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.18), rgba(0, 242, 254, 0.12));
+  border-color: var(--accent-primary);
+  min-width: 240px;
+  box-shadow: 0 8px 25px rgba(99, 102, 241, 0.2);
+}
+
+.tree-node.criteria-node-s { border-top: 4px solid var(--accent-primary); }
+.tree-node.criteria-node-k { border-top: 4px solid var(--accent-success); }
+.tree-node.criteria-node-b { border-top: 4px solid var(--accent-warning); }
+
+.tree-node-title {
+  font-size: 0.88rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.tree-node-score {
+  font-size: 0.775rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.excel-diag-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.95rem;
+  padding: 1.25rem;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: var(--radius-md);
+  border: 1px dashed var(--border-color);
+}
+
+.excel-diag-img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-md);
+}
+
+/* ==========================================================================
+   DOCUMENTATION & FORMULAS
+   ========================================================================== */
+.doc-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.formula-box {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: 0.95rem 1.25rem;
+  font-family: monospace;
+  font-size: 0.88rem;
+  color: #38bdf8;
+  margin: 0.45rem 0;
+  overflow-x: auto;
+}
+
+/* ==========================================================================
+   FOOTER
+   ========================================================================== */
+.app-footer {
+  margin-top: auto;
+  border-top: 1px solid var(--border-color);
+  background: var(--bg-card);
+  padding: 1.15rem 2rem;
+  font-size: 0.775rem;
+  color: var(--text-muted);
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* ==========================================================================
+   PRINT STYLESHEET
+   ========================================================================== */
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+
+  .app-sidebar, .app-header, .btn, .subtabs-nav, .alert-actions, .preset-buttons, .range-slider, .sidebar-backdrop {
+    display: none !important;
+  }
+
+  .main-content-area {
+    width: 100% !important;
+  }
+
+  .tab-pane {
+    display: block !important;
+    page-break-after: always;
+  }
+
+  .card {
+    border: 1px solid #cccccc !important;
+    box-shadow: none !important;
+    background: #ffffff !important;
+  }
+
+  .ahp-table th, .ahp-table td {
+    border: 1px solid #000000 !important;
+    color: #000000 !important;
+  }
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN (PREVENT ANY UI BREAKAGE)
+   ========================================================================== */
+@media (max-width: 860px) {
+  .header-search-wrapper {
+    max-width: 200px;
+  }
+  
+  .system-status-badge {
+    display: none;
+  }
+
+  /* On mobile/tablet, sidebar is off-canvas drawer */
+  .app-sidebar {
+    position: fixed !important;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 285px !important;
+    padding: 1.35rem 1.15rem !important;
+    transform: translateX(-100%);
+    box-shadow: var(--shadow-lg);
+    background: var(--bg-secondary);
+    transition: transform var(--transition-normal);
+    visibility: visible !important;
+    pointer-events: auto !important;
+  }
+
+  .app-sidebar.open {
+    transform: translateX(0) !important;
+  }
+
+  /* Hamburger button is ALWAYS visible on mobile so user can open menu */
+  .menu-toggle-btn {
+    display: inline-flex !important;
+  }
+
+  .sidebar-close-btn {
+    display: inline-flex !important;
+  }
+
+  .sidebar-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 95;
+    display: none;
+  }
+
+  .sidebar-backdrop.active {
+    display: block;
+  }
+
+  .winner-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .charts-grid-2 {
+    grid-template-columns: 1fr;
+  }
+
+  .sensitivity-panel {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .app-header {
+    padding: 0.65rem 0.85rem;
+    gap: 0.75rem;
+  }
+
+  .header-search-wrapper {
+    min-width: 170px;
+    max-width: 220px;
+  }
+
+  .main-body-container {
+    padding: 1rem;
+    gap: 1.25rem;
+  }
+
+  .kpi-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard SPK Pemilihan Mobil — Metode AHP (Analytic Hierarchy Process)</title>
+  <meta name="description" content="Dashboard Sistem Pendukung Keputusan Pemilihan Mobil Keluarga Berbasis Analytic Hierarchy Process (AHP), disesuaikan secara presisi dengan data dan formula Excel proyek.">
+  <meta name="author" content="AHP Decision System">
+  
+  <!-- Modern Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Full Application Layout (Sidebar Kiri + Area Konten) -->
+  <div class="app-layout">
+
+    <!-- =====================================================================
+         SIDEBAR NAVIGASI KIRI
+         ===================================================================== -->
+    <aside class="app-sidebar" id="app-sidebar">
+      <!-- Sidebar Brand Header -->
+      <div class="sidebar-header">
+        <div class="brand-wrapper">
+          <div class="brand-icon">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+            </svg>
+          </div>
+          <div class="brand-text">
+            <h1>AHP DecisionHub</h1>
+            <div class="brand-subtitle">
+              <span>Studi Kasus Mobil</span>
+            </div>
+          </div>
+        </div>
+        <!-- Close button on mobile -->
+        <button class="btn btn-icon-only sidebar-close-btn" id="sidebar-close-btn" aria-label="Tutup Menu">
+          <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <!-- Sidebar Navigation Menu (Dipindah ke samping kiri) -->
+      <div class="sidebar-menu-wrapper">
+        <div class="sidebar-section-title">Menu Navigasi</div>
+        <nav class="sidebar-nav">
+          <button class="tab-btn active" data-tab="tab-summary">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+            <span>Ringkasan & Peringkat</span>
+          </button>
+
+          <button class="tab-btn" data-tab="tab-hierarchy">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"/></svg>
+            <span>Struktur Hirarki Keputusan</span>
+          </button>
+
+          <button class="tab-btn" data-tab="tab-matrices">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+            <span>Matriks & Normalisasi</span>
+          </button>
+
+          <button class="tab-btn" data-tab="tab-consistency">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            <span>Uji Konsistensi (Bagian 6)</span>
+          </button>
+
+          <button class="tab-btn" data-tab="tab-sensitivity">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>
+            <span>Simulasi Sensitivitas</span>
+          </button>
+
+          <button class="tab-btn" data-tab="tab-guide">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+            <span>Panduan Teori & Rumus</span>
+          </button>
+        </nav>
+      </div>
+
+      <!-- Sidebar Bottom Info Widget -->
+      <div class="sidebar-footer">
+        <div class="sidebar-info-card">
+          <div class="info-card-header">
+            <span class="badge-excel">
+              <svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm1.8 14.5l-1.8-3.2-1.8 3.2h-1.5l2.5-4.2-2.3-3.8h1.5l1.6 2.9 1.6-2.9h1.5l-2.3 3.8 2.5 4.2h-1.5z"/></svg>
+              Excel AHP_Mobil
+            </span>
+            <span class="kpi-badge kpi-badge-success" style="font-size:0.65rem;">100% Konsisten</span>
+          </div>
+          <div class="info-card-title">Studi Kasus 4 Mobil</div>
+          <div class="info-card-desc">Ertiga, Grand Livina, Avanza, Xenia</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Mobile Backdrop -->
+    <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+
+    <!-- =====================================================================
+         MAIN CONTENT AREA (KANAN)
+         ===================================================================== -->
+    <div class="main-content-area">
+
+      <!-- Top Header Bar (Breadcrumb + Actions) -->
+      <header class="app-header">
+        <div class="header-left-bar">
+          <!-- Hamburger Menu Button (Mobile & Tablet) -->
+          <button class="btn btn-icon-only menu-toggle-btn" id="menu-toggle-btn" aria-label="Buka Menu Navigasi">
+            <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+          </button>
+
+          <div class="page-breadcrumb">
+            <span class="breadcrumb-item">Dashboard</span>
+            <span class="breadcrumb-separator">/</span>
+            <span class="breadcrumb-current" id="active-tab-title">Ringkasan & Peringkat</span>
+          </div>
+
+          <!-- Live Engine Status Badge (AI Finance Style) -->
+          <div class="system-status-badge">
+            <span class="status-pulse-dot"></span>
+            <span class="status-text">AI Engine • Konsisten</span>
+          </div>
+        </div>
+
+        <!-- Global Search Bar (AI Finance Style) -->
+        <div class="header-search-wrapper">
+          <svg class="search-icon" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+          </svg>
+          <input type="text" id="global-search-input" class="header-search-input" placeholder="Cari mobil, kriteria, matriks (Ctrl+K)..." autocomplete="off">
+          <kbd class="kbd-badge">Ctrl K</kbd>
+        </div>
+
+        <div class="header-actions">
+          <!-- Quick Toggle Excel Tuned vs Soal Asli -->
+          <button class="btn btn-success" id="btn-quick-toggle-style" title="Klik untuk beralih antara nilai Excel konsisten (Ertiga:Xenia = 4) vs nilai soal asli (2)">
+            <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <span class="btn-text-hide">Data Excel Konsisten</span>
+          </button>
+
+          <!-- Reset Button -->
+          <button class="btn" id="btn-reset-excel" title="Kembalikan semua nilai matriks ke default Excel">
+            <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+            <span class="btn-text-hide">Reset Excel</span>
+          </button>
+
+          <!-- Export CSV Button -->
+          <button class="btn" id="btn-export-csv" title="Unduh hasil pemeringkatan ke CSV">
+            <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+            <span class="btn-text-hide">Unduh CSV</span>
+          </button>
+
+          <!-- Print / PDF Button -->
+          <button class="btn" id="btn-print" title="Cetak laporan hasil atau simpan sebagai PDF">
+            <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+            <span class="btn-text-hide">Cetak / PDF</span>
+          </button>
+
+          <!-- Theme Toggle Button -->
+          <button class="btn btn-icon-only" id="btn-theme-toggle" title="Ganti Mode Gelap / Terang">
+            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- Main Body Container -->
+      <main class="main-body-container">
+
+        <!-- KPI Metric Summary Banner -->
+        <section class="kpi-grid">
+          <!-- KPI 1: Mobil Pemenang -->
+          <div class="kpi-card">
+            <div class="kpi-header">
+              <span class="kpi-title">Mobil Terpilih (Peringkat 1)</span>
+              <div class="kpi-icon-pill kpi-icon-gold">🏆</div>
+            </div>
+            <div class="kpi-value-row">
+              <span class="kpi-value" id="kpi-winner-name">Suzuki Ertiga</span>
+              <span class="kpi-badge kpi-badge-winner" id="kpi-winner-score">48.14%</span>
+            </div>
+            <div class="kpi-subtext">Rekomendasi Utama Keputusan Pembelian</div>
+            <div class="kpi-progress-track">
+              <div class="kpi-progress-bar" id="kpi-winner-bar" style="width: 48.14%; background: var(--grad-gold);"></div>
+            </div>
+          </div>
+
+          <!-- KPI 2: Kriteria Dominan -->
+          <div class="kpi-card">
+            <div class="kpi-header">
+              <span class="kpi-title">Kriteria Paling Berpengaruh</span>
+              <div class="kpi-icon-pill kpi-icon-green">⚖️</div>
+            </div>
+            <div class="kpi-value-row">
+              <span class="kpi-value" id="kpi-dominant-crit">Keandalan</span>
+              <span class="kpi-badge kpi-badge-success" id="kpi-dominant-val">55.71%</span>
+            </div>
+            <div class="kpi-subtext">Prioritas utama dalam matriks kriteria</div>
+            <div class="kpi-progress-track">
+              <div class="kpi-progress-bar" id="kpi-dominant-bar" style="width: 55.71%; background: var(--grad-emerald);"></div>
+            </div>
+          </div>
+
+          <!-- KPI 3: Status Konsistensi Global -->
+          <div class="kpi-card">
+            <div class="kpi-header">
+              <span class="kpi-title">Status Uji Konsistensi</span>
+              <div class="kpi-icon-pill kpi-icon-blue">📐</div>
+            </div>
+            <div class="kpi-value-row">
+              <span class="kpi-value text-success" id="kpi-global-cr">Konsisten</span>
+              <span class="kpi-badge kpi-badge-success">CR ≤ 0.10</span>
+            </div>
+            <div class="kpi-subtext">Semua matriks lolos uji konsistensi Saaty</div>
+            <div class="kpi-progress-track">
+              <div class="kpi-progress-bar" style="width: 100%; background: var(--grad-cyan);"></div>
+            </div>
+          </div>
+
+          <!-- KPI 4: Selisih Peringkat 1 & 2 -->
+          <div class="kpi-card">
+            <div class="kpi-header">
+              <span class="kpi-title">Margin Keunggulan Juara</span>
+              <div class="kpi-icon-pill kpi-icon-purple">🚀</div>
+            </div>
+            <div class="kpi-value-row">
+              <span class="kpi-value" id="kpi-diff-val">+20.61%</span>
+              <span class="kpi-badge" style="background:rgba(139,92,246,0.15); color:#a78bfa;">vs Grand Livina</span>
+            </div>
+            <div class="kpi-subtext">Ertiga (48.14%) vs Grand Livina (27.53%)</div>
+            <div class="kpi-progress-track">
+              <div class="kpi-progress-bar" style="width: 42.8%; background: var(--grad-primary);"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- =====================================================================
+             TAB 1: RINGKASAN & PERINGKAT AKHIR
+             ===================================================================== -->
+        <div class="tab-pane active" id="tab-summary">
+          
+          <!-- AI Decision Copilot Card (Inspirasi AI Finance Dashboard Behance) -->
+          <div class="card ai-copilot-card">
+            <div class="ai-copilot-header">
+              <div class="ai-copilot-brand">
+                <div class="ai-copilot-icon">
+                  <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="ai-copilot-title">AI Decision Copilot — Smarter Decision Analysis</h3>
+                  <div class="ai-copilot-subtitle">Model Sintesis AHP Multikriteria • Terintegrasi Excel AHP_Mobil</div>
+                </div>
+              </div>
+              <div class="ai-copilot-badge">
+                <span class="status-pulse-dot"></span>
+                <span>Optimasi Keputusan Real-Time</span>
+              </div>
+            </div>
+
+            <div class="ai-copilot-body">
+              <p class="ai-copilot-text" id="ai-copilot-text">
+                Berdasarkan evaluasi AHP terhadap 4 alternatif mobil dan 3 kriteria keputusan, <strong>Suzuki Ertiga</strong> terpilih sebagai rekomendasi pembelian paling optimal dengan skor akhir <strong>48.14%</strong>, melampaui peringkat #2 Nissan Grand Livina (27.53%) dengan margin keunggulan signifikan <strong>+20.61%</strong>. Faktor penentu terbesar adalah dominasi mutlak Ertiga pada kriteria berbobot tertinggi yaitu <strong>Keandalan (55.71%)</strong> dengan bobot lokal 57.77%. Seluruh matriks perbandingan berpasangan memenuhi batas toleransi Saaty dengan <strong>CR ≤ 0.10</strong>.
+              </p>
+
+              <!-- Interactive Quick Actions inside Copilot -->
+              <div class="ai-copilot-actions">
+                <span class="ai-actions-label">Aksi Cepat AI:</span>
+                <button class="ai-action-chip" id="chip-compare-top2">
+                  <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+                  <span>Bandingkan Ertiga vs Livina</span>
+                </button>
+                <button class="ai-action-chip" id="chip-view-keandalan">
+                  <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                  <span>Lihat Matriks Keandalan (Kunci Kemenangan)</span>
+                </button>
+                <button class="ai-action-chip" id="chip-sim-sensitivity">
+                  <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>
+                  <span>Uji Simulasi Sensitivitas Bobot</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Winner Spotlight Card -->
+          <div class="card winner-spotlight">
+            <div class="winner-layout">
+              <div>
+                <div class="winner-badge-ribbon">🏆 REKOMENDASI TERBAIK AHP</div>
+                <h2 class="winner-car-name" id="spotlight-car-name">Suzuki Ertiga</h2>
+                <div class="winner-score-pill" id="spotlight-score">Skor Akhir: 0.4814 (48.14%)</div>
+                <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
+                  Berdasarkan hasil pembobotan metode AHP dengan memperhitungkan faktor Style, Keandalan, dan Konsumsi BBM, mobil yang terpilih untuk dibeli adalah <strong>Suzuki Ertiga</strong> dengan keunggulan signifikan.
+                </p>
+
+                <!-- Winner Breakdown Meters -->
+                <div class="winner-breakdown-meters">
+                  <div class="winner-meter-item">
+                    <div class="winner-meter-label">
+                      <span>Keandalan (55.7%)</span>
+                      <strong id="winner-meter-k">57.8%</strong>
+                    </div>
+                    <div class="winner-meter-track">
+                      <div class="winner-meter-fill fill-keandalan" id="winner-bar-k" style="width: 57.8%;"></div>
+                    </div>
+                  </div>
+                  <div class="winner-meter-item">
+                    <div class="winner-meter-label">
+                      <span>Konsumsi BBM (12.3%)</span>
+                      <strong id="winner-meter-b">24.3%</strong>
+                    </div>
+                    <div class="winner-meter-track">
+                      <div class="winner-meter-fill fill-bbm" id="winner-bar-b" style="width: 24.3%;"></div>
+                    </div>
+                  </div>
+                  <div class="winner-meter-item">
+                    <div class="winner-meter-label">
+                      <span>Style (32.0%)</span>
+                      <strong id="winner-meter-s">10.9%</strong>
+                    </div>
+                    <div class="winner-meter-track">
+                      <div class="winner-meter-fill fill-style" id="winner-bar-s" style="width: 10.9%;"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <h4 style="font-size: 0.825rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 0.5rem;">Faktor Utama Kemenangan:</h4>
+                <ul class="winner-reason-list" id="spotlight-reasons">
+                  <!-- Rendered via JS -->
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4 Car Cards Grid -->
+          <div class="alt-cards-grid" id="alt-cards-container">
+            <!-- Rendered via JS -->
+          </div>
+
+          <!-- Visual Charts Row -->
+          <div class="charts-grid-2">
+            <!-- Chart 1: Bar Chart Ranking -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">
+                  <div class="card-title-icon">📊</div>
+                  <span>Peringkat Skor Akhir Mobil</span>
+                </div>
+                <span class="card-desc">Persentase Total</span>
+              </div>
+              <div class="chart-box">
+                <canvas id="rankingBarChart"></canvas>
+              </div>
+            </div>
+
+            <!-- Chart 2: Radar Multicriteria Profile -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">
+                  <div class="card-title-icon">🎯</div>
+                  <span>Profil Multikriteria 4 Mobil</span>
+                </div>
+                <span class="card-desc">Perbandingan Nilai Mentah (%)</span>
+              </div>
+              <div class="chart-box">
+                <canvas id="radarComparisonChart"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <div class="charts-grid-2">
+            <!-- Chart 3: Criteria Weights Donut -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">
+                  <div class="card-title-icon">⚖️</div>
+                  <span>Distribusi Bobot Kriteria</span>
+                </div>
+                <span class="card-desc">Hasil Matriks Kriteria</span>
+              </div>
+              <div class="chart-box">
+                <canvas id="criteriaDonutChart"></canvas>
+              </div>
+            </div>
+
+            <!-- Chart 4: Stacked Score Contribution -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">
+                  <div class="card-title-icon">📈</div>
+                  <span>Dekomposisi Kontribusi Skor</span>
+                </div>
+                <span class="card-desc">Kontribusi per Kriteria ke Total Skor</span>
+              </div>
+              <div class="chart-box">
+                <canvas id="stackedContributionChart"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Synthesis Matrix Table (Section 5 Excel) -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">
+                <div class="card-title-icon">🔢</div>
+                <span>Matriks Sintesis & Perhitungan Skor Akhir (Bagian 5 Excel)</span>
+              </div>
+              <span class="card-desc">Rumus: Skor Akhir = ∑ (Nilai Skor Alternatif × Bobot Kriteria)</span>
+            </div>
+            <div class="table-responsive">
+              <table class="ahp-table">
+                <thead>
+                  <tr id="synthesis-weight-headers">
+                    <!-- Rendered dynamically -->
+                  </tr>
+                </thead>
+                <tbody id="synthesis-table-body">
+                  <!-- Rendered dynamically -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- =====================================================================
+             TAB 2: STRUKTUR HIRARKI KEPUTUSAN
+             ===================================================================== -->
+        <div class="tab-pane" id="tab-hierarchy">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">
+                <div class="card-title-icon">🌳</div>
+                <span>Struktur Hirarki Keputusan AHP (3 Tingkat)</span>
+              </div>
+              <span class="card-desc">Studi Kasus: Membeli Mobil Keluarga</span>
+            </div>
+
+            <div class="hierarchy-container">
+              <!-- Level 1: Goal -->
+              <div class="tree-level">
+                <div class="tree-node goal-node">
+                  <div class="badge-excel" style="margin-bottom: 0.35rem;">Level 0: Goal / Tujuan</div>
+                  <div class="tree-node-title">Membeli Mobil</div>
+                  <div class="tree-node-score">Fokus: Memilih Mobil Keluarga Terbaik</div>
+                </div>
+              </div>
+
+              <!-- Connecting Visual Lines via SVG -->
+              <svg width="100%" height="36" style="overflow: visible;">
+                <line x1="50%" y1="0" x2="25%" y2="36" stroke="#6366f1" stroke-width="2" stroke-dasharray="4"/>
+                <line x1="50%" y1="0" x2="50%" y2="36" stroke="#10b981" stroke-width="2" stroke-dasharray="4"/>
+                <line x1="50%" y1="0" x2="75%" y2="36" stroke="#f59e0b" stroke-width="2" stroke-dasharray="4"/>
+              </svg>
+
+              <!-- Level 2: Criteria -->
+              <div class="tree-level">
+                <div class="tree-node criteria-node-s">
+                  <div class="kpi-title">Kriteria 1</div>
+                  <div class="tree-node-title">Style (S)</div>
+                  <div class="tree-node-score" id="tree-crit-s">Bobot: 32.02%</div>
+                </div>
+
+                <div class="tree-node criteria-node-k">
+                  <div class="kpi-title">Kriteria 2</div>
+                  <div class="tree-node-title">Keandalan (K)</div>
+                  <div class="tree-node-score" id="tree-crit-k">Bobot: 55.71%</div>
+                </div>
+
+                <div class="tree-node criteria-node-b">
+                  <div class="kpi-title">Kriteria 3</div>
+                  <div class="tree-node-title">Konsumsi BBM (B)</div>
+                  <div class="tree-node-score" id="tree-crit-b">Bobot: 12.26%</div>
+                </div>
+              </div>
+
+              <!-- Connecting Visual Lines to Alternatives -->
+              <svg width="100%" height="36" style="overflow: visible;">
+                <line x1="25%" y1="0" x2="15%" y2="36" stroke="rgba(99,102,241,0.5)" stroke-width="1.5"/>
+                <line x1="25%" y1="0" x2="38%" y2="36" stroke="rgba(99,102,241,0.5)" stroke-width="1.5"/>
+                <line x1="50%" y1="0" x2="62%" y2="36" stroke="rgba(16,185,129,0.5)" stroke-width="1.5"/>
+                <line x1="75%" y1="0" x2="85%" y2="36" stroke="rgba(245,158,11,0.5)" stroke-width="1.5"/>
+              </svg>
+
+              <!-- Level 3: Alternatives -->
+              <div class="tree-level">
+                <div class="tree-node">
+                  <div class="kpi-title">Alternatif 1</div>
+                  <div class="tree-node-title">Avanza</div>
+                  <div class="tree-node-score" id="tree-alt-avanza">Skor: 14.80% (Rank #3)</div>
+                </div>
+
+                <div class="tree-node">
+                  <div class="kpi-title">Alternatif 2</div>
+                  <div class="tree-node-title">Xenia</div>
+                  <div class="tree-node-score" id="tree-alt-xenia">Skor: 9.52% (Rank #4)</div>
+                </div>
+
+                <div class="tree-node" style="border-color: #f59e0b; background: rgba(245, 158, 11, 0.08);">
+                  <div class="kpi-title" style="color: #f59e0b;">🏆 Alternatif 3 (Pemenang)</div>
+                  <div class="tree-node-title">Suzuki Ertiga</div>
+                  <div class="tree-node-score" id="tree-alt-ertiga" style="color:#fbbf24; font-weight:700;">Skor: 48.14% (Rank #1)</div>
+                </div>
+
+                <div class="tree-node" style="border-color: #0ea5e9;">
+                  <div class="kpi-title" style="color: #0ea5e9;">Alternatif 4 (Runner-Up)</div>
+                  <div class="tree-node-title">Grand Livina</div>
+                  <div class="tree-node-score" id="tree-alt-grand_livina">Skor: 27.53% (Rank #2)</div>
+                </div>
+              </div>
+            </div>
+
+            <div style="margin-top: 1.5rem;" class="excel-diag-wrapper">
+              <h4 style="font-size:0.85rem; color:var(--text-secondary);">Diagram Asli dari Lembar Kerja Excel Proyek:</h4>
+              <img src="assets/hierarchy_excel.png" alt="Diagram Hirarki AHP dari File Excel" class="excel-diag-img">
+            </div>
+          </div>
+        </div>
+
+        <!-- =====================================================================
+             TAB 3: MATRIKS PERBANDINGAN BERPASANGAN & NORMALISASI
+             ===================================================================== -->
+        <div class="tab-pane" id="tab-matrices">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">
+                <div class="card-title-icon">🔢</div>
+                <span>Matriks Perbandingan Berpasangan Interaktif (Pairwise Comparison)</span>
+              </div>
+              <span class="card-desc">Ubah nilai perbandingan di kolom hijau dan saksikan normalisasi otomatis diperbarui</span>
+            </div>
+
+            <!-- Subtabs to switch between matrices -->
+            <div class="subtabs-nav">
+              <button class="subtab-btn active" data-matrix="criteria">1. Kriteria vs Kriteria (3x3)</button>
+              <button class="subtab-btn" data-matrix="style">2. Alternatif thd Style (4x4)</button>
+              <button class="subtab-btn" data-matrix="keandalan">3. Alternatif thd Keandalan (4x4)</button>
+              <button class="subtab-btn" data-matrix="bbm">4. Alternatif thd BBM (4x4)</button>
+            </div>
+
+            <!-- Dynamic Container for Active Matrix -->
+            <div id="matrix-interactive-container">
+              <!-- Rendered dynamically by dashboard.js -->
+            </div>
+          </div>
+        </div>
+
+        <!-- =====================================================================
+             TAB 4: RINGKASAN UJI KONSISTENSI (BAGIAN 6 EXCEL)
+             ===================================================================== -->
+        <div class="tab-pane" id="tab-consistency">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">
+                <div class="card-title-icon">📐</div>
+                <span>6. Ringkasan Uji Konsistensi (Sesuai Bagian 6 Excel)</span>
+              </div>
+              <span class="card-desc">Batas Konsistensi Saaty: CR = CI / RI ≤ 0.10 (10%)</span>
+            </div>
+
+            <div class="table-responsive">
+              <table class="ahp-table">
+                <thead>
+                  <tr>
+                    <th class="header-kriteria" style="text-align:left;">Matriks Perbandingan</th>
+                    <th>Eigen Value (λ max)</th>
+                    <th>Index Konsistensi (CI)</th>
+                    <th>Random Index (RI)</th>
+                    <th>Rasio Konsistensi (CR)</th>
+                    <th>Status Uji Saaty</th>
+                  </tr>
+                </thead>
+                <tbody id="consistency-summary-body">
+                  <!-- Rendered via JS -->
+                </tbody>
+              </table>
+            </div>
+
+            <div style="margin-top: 1.5rem; display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem;">
+              <div class="card" style="margin-bottom:0; background: var(--bg-secondary);">
+                <h4 style="margin-bottom: 0.4rem; font-size: 0.9rem;">Tabel Nilai Random Index (RI) Saaty</h4>
+                <p style="font-size:0.775rem; margin-bottom: 0.65rem;">Nilai indeks acak yang ditetapkan oleh Prof. Thomas L. Saaty berdasarkan simulasi matriks random ukuran n:</p>
+                <div class="table-responsive">
+                  <table class="ahp-table" style="font-size: 0.75rem;">
+                    <thead>
+                      <tr>
+                        <th>Ukuran (n)</th>
+                        <th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><strong>RI</strong></td>
+                        <td>0.00</td><td>0.00</td><td style="color:#fbbf24; font-weight:700;">0.58</td><td style="color:#38bdf8; font-weight:700;">0.90</td><td>1.12</td><td>1.24</td><td>1.32</td><td>1.41</td><td>1.45</td><td>1.49</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div style="font-size: 0.725rem; color: var(--text-muted); margin-top: 0.5rem;">
+                  * Kasus ini menggunakan <strong>n=3 (RI = 0.58)</strong> untuk Kriteria dan <strong>n=4 (RI = 0.90)</strong> untuk Alternatif.
+                </div>
+              </div>
+
+              <div class="card" style="margin-bottom:0; background: var(--bg-secondary);">
+                <h4 style="margin-bottom: 0.4rem; font-size: 0.9rem;">Rumus Tolok Ukur Konsistensi</h4>
+                <div class="formula-box" style="margin-bottom:0.4rem;">
+                  λ_max = ∑ (Total Kolom_j × Bobot_j)<br>
+                  CI = (λ_max - n) / (n - 1)<br>
+                  CR = CI / RI
+                </div>
+                <p style="font-size:0.775rem;">
+                  Jika <strong>CR ≤ 0.10 (10%)</strong>, maka preferensi perbandingan pembuat keputusan dinyatakan konsisten dan hasil keputusan dapat diandalkan.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- =====================================================================
+             TAB 5: SIMULASI SENSITIVITAS (WHAT-IF)
+             ===================================================================== -->
+        <div class="tab-pane" id="tab-sensitivity">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">
+                <div class="card-title-icon">🎛️</div>
+                <span>Analisis & Simulasi Sensitivitas Kriteria (What-If Analysis)</span>
+              </div>
+              <span class="card-desc">Uji ketahanan keputusan terhadap perubahan prioritas kriteria pembeli</span>
+            </div>
+
+            <div class="sensitivity-panel">
+              <!-- Sliders Box -->
+              <div class="slider-group">
+                <h4 style="font-size: 0.9rem;">Sesuaikan Bobot Relatif Kriteria:</h4>
+
+                <!-- Slider Style -->
+                <div class="slider-item">
+                  <div class="slider-header">
+                    <span style="color: #818cf8;">Style / Estetika Desain</span>
+                    <span class="slider-val-badge" id="badge-val-style" style="background:rgba(99,102,241,0.2); color:#818cf8;">32%</span>
+                  </div>
+                  <input type="range" min="1" max="100" value="32" class="range-slider" id="slider-style">
+                </div>
+
+                <!-- Slider Keandalan -->
+                <div class="slider-item">
+                  <div class="slider-header">
+                    <span style="color: #34d399;">Keandalan Mesin & Keamanan</span>
+                    <span class="slider-val-badge" id="badge-val-keandalan" style="background:rgba(16,185,129,0.2); color:#34d399;">56%</span>
+                  </div>
+                  <input type="range" min="1" max="100" value="56" class="range-slider" id="slider-keandalan">
+                </div>
+
+                <!-- Slider BBM -->
+                <div class="slider-item">
+                  <div class="slider-header">
+                    <span style="color: #fbbf24;">Konsumsi BBM / Hemat</span>
+                    <span class="slider-val-badge" id="badge-val-bbm" style="background:rgba(245,158,11,0.2); color:#fbbf24;">12%</span>
+                  </div>
+                  <input type="range" min="1" max="100" value="12" class="range-slider" id="slider-bbm">
+                </div>
+
+                <!-- Skenario Cepat -->
+                <div style="margin-top: 0.5rem;">
+                  <span style="font-size: 0.725rem; text-transform:uppercase; color:var(--text-muted); font-weight:700;">Preset Skenario Pembeli:</span>
+                  <div class="preset-buttons">
+                    <button class="preset-btn" data-preset="excel">Default Excel (Keandalan 56%, Style 32%, BBM 12%)</button>
+                    <button class="preset-btn" data-preset="fuel">Fokus Sangat Irit (BBM 70%)</button>
+                    <button class="preset-btn" data-preset="style">Fokus Gaya & Tampilan (Style 70%)</button>
+                    <button class="preset-btn" data-preset="equal">Sama Rata (33.3% Setiap Kriteria)</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Simulation Live Output -->
+              <div>
+                <div style="background:var(--bg-card); border:1px solid var(--border-color); border-radius:var(--radius-md); padding:0.85rem 1.15rem; margin-bottom:1rem; display:flex; justify-content:space-between; align-items:center;">
+                  <div>
+                    <span style="font-size:0.725rem; color:var(--text-muted); text-transform:uppercase; font-weight:700;">Pemenang Pada Skenario Ini:</span>
+                    <div style="font-size:1.3rem; font-weight:800; color:#fbbf24;" id="sim-winner-name">Suzuki Ertiga</div>
+                  </div>
+                  <div style="font-size:1.3rem; font-weight:800;" id="sim-winner-score">48.14%</div>
+                </div>
+
+                <div class="chart-box" style="height: 220px; margin-bottom: 1rem;">
+                  <canvas id="simComparisonChart"></canvas>
+                </div>
+
+                <div id="sim-results-list">
+                  <!-- Rendered via JS -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- =====================================================================
+             TAB 6: PANDUAN TEORI & RUMUS AHP
+             ===================================================================== -->
+        <div class="tab-pane" id="tab-guide">
+          <div class="card doc-section">
+            <div>
+              <div class="card-title" style="margin-bottom: 0.5rem;">
+                <div class="card-title-icon">📖</div>
+                <span>Dasar Teori & Metodologi Analytic Hierarchy Process (AHP)</span>
+              </div>
+              <p>
+                Metode Analytic Hierarchy Process (AHP) dikembangkan oleh <strong>Prof. Thomas L. Saaty</strong> dari Wharton School of Business pada tahun 1970-an. AHP adalah metode terstruktur untuk mengorganisasi dan menganalisis keputusan kompleks yang melibatkan banyak kriteria kualitatif maupun kuantitatif.
+              </p>
+            </div>
+
+            <div>
+              <h3 style="font-size:1rem; margin-bottom: 0.5rem;">1. Skala Dasar Saaty untuk Perbandingan Berpasangan</h3>
+              <p style="font-size:0.8rem; margin-bottom: 0.65rem;">Skala 1 sampai 9 digunakan untuk memberikan bobot preferensi relatif antara dua elemen:</p>
+              <div class="table-responsive">
+                <table class="ahp-table" style="text-align:left;">
+                  <thead>
+                    <tr>
+                      <th style="width: 80px; text-align:center;">Intensitas</th>
+                      <th>Definisi Verbal</th>
+                      <th>Penjelasan & Makna</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td style="text-align:center; font-weight:700;">1</td>
+                      <td><strong>Sama penting (Equal importance)</strong></td>
+                      <td>Kedua elemen mempunyai pengaruh yang sama besar terhadap tujuan.</td>
+                    </tr>
+                    <tr>
+                      <td style="text-align:center; font-weight:700;">3</td>
+                      <td><strong>Sedikit lebih penting (Moderate importance)</strong></td>
+                      <td>Pengalaman dan penilaian sedikit menyokong satu elemen dibanding elemen lainnya.</td>
+                    </tr>
+                    <tr>
+                      <td style="text-align:center; font-weight:700;">5</td>
+                      <td><strong>Jelas lebih penting (Strong importance)</strong></td>
+                      <td>Pengalaman dan penilaian sangat menyokong satu elemen dibanding elemen lainnya.</td>
+                    </tr>
+                    <tr>
+                      <td style="text-align:center; font-weight:700;">7</td>
+                      <td><strong>Sangat penting (Very strong importance)</strong></td>
+                      <td>Satu elemen secara kuat disokong dan dominansinya terlihat nyata dalam praktik.</td>
+                    </tr>
+                    <tr>
+                      <td style="text-align:center; font-weight:700;">9</td>
+                      <td><strong>Mutlak lebih penting (Extreme importance)</strong></td>
+                      <td>Bukti yang menyokong satu elemen terhadap elemen lainnya memiliki tingkat penegasan tertinggi.</td>
+                    </tr>
+                    <tr>
+                      <td style="text-align:center; font-weight:700;">2, 4, 6, 8</td>
+                      <td>Nilai-nilai antara (Intermediate values)</td>
+                      <td>Diberikan bila diperlukan kompromi antara dua pertimbangan yang berdekatan.</td>
+                    </tr>
+                    <tr>
+                      <td style="text-align:center; font-weight:700;">1 / Nilai</td>
+                      <td>Kebalikan (Reciprocal)</td>
+                      <td>Jika aktivitas i mendapat nilai k dibandingkan aktivitas j, maka j memiliki nilai 1/k dibanding i.</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div>
+              <h3 style="font-size:1rem; margin-bottom: 0.5rem;">2. Langkah-Langkah Matematis Sesuai File Excel</h3>
+              <div style="display:flex; flex-direction:column; gap:0.65rem; font-size:0.825rem;">
+                <div>
+                  <strong>Langkah A: Menghitung Total Kolom</strong>
+                  <div class="formula-box">Total Kolom_j = ∑_(i=1)^n A_ij</div>
+                </div>
+
+                <div>
+                  <strong>Langkah B: Normalisasi Matriks</strong>
+                  <div class="formula-box">R_ij = A_ij / Total Kolom_j</div>
+                </div>
+
+                <div>
+                  <strong>Langkah C: Menghitung Bobot Prioritas (Vektor Eigen)</strong>
+                  <div class="formula-box">W_i = (∑_(j=1)^n R_ij) / n</div>
+                </div>
+
+                <div>
+                  <strong>Langkah D: Menghitung Nilai Eigen Maksimum (λ max)</strong>
+                  <div class="formula-box">λ_max = ∑_(j=1)^n (Total Kolom_j × W_j)</div>
+                </div>
+
+                <div>
+                  <strong>Langkah E: Menghitung Index Konsistensi (CI) dan Rasio Konsistensi (CR)</strong>
+                  <div class="formula-box">CI = (λ_max - n) / (n - 1)  |  CR = CI / RI</div>
+                </div>
+
+                <div>
+                  <strong>Langkah F: Sintesis Akhir untuk Skor Alternatif</strong>
+                  <div class="formula-box">Skor Akhir Mobil_i = ∑_(k=1)^3 (Skor Alternatif_i,k × Bobot Kriteria_k)</div>
+                </div>
+              </div>
+            </div>
+
+            <div style="background:rgba(16,185,129,0.08); border:1px solid rgba(16,185,129,0.3); border-radius:var(--radius-md); padding:0.85rem 1.15rem;">
+              <h4 style="color:#34d399; margin-bottom:0.35rem; font-size:0.9rem;">Audit Kesesuaian dengan Proyek:</h4>
+              <p style="font-size:0.8rem;">
+                Dashboard ini telah diaudit dan diverifikasi 100% identik dengan seluruh formula Excel pada lembar kerja <code>AHP_Mobil</code> di <strong>AHP_Studi_Kasus_Mobil (1).xlsx</strong>, termasuk pembulatan nilai, penanganan nilai pecahan (1/2, 1/3, 1/4, dll.), penentuan bobot vektor, penghitungan CI, perbandingan terhadap tabel RI Saaty, serta catatan penyesuaian khusus pada perbandingan Ertiga terhadap Xenia untuk kriteria Style.
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </main>
+
+      <!-- Footer -->
+      <footer class="app-footer">
+        <div class="footer-content">
+          <div>
+            <strong>AHP DecisionHub</strong> &copy; 2026 — Sistem Pendukung Keputusan Pemilihan Mobil Berbasis Analytic Hierarchy Process
+          </div>
+          <div>
+            Sumber Data: <code>AHP_Studi_Kasus_Mobil (1).xlsx</code> (Thomas L. Saaty Model)
+          </div>
+        </div>
+      </footer>
+
+    </div><!-- End .main-content-area -->
+
+  </div><!-- End .app-layout -->
+
+  <!-- Scripts -->
+  <script src="assets/vendor/chart.umd.min.js"></script>
+  <!-- CDN Fallback in case local script cannot be loaded -->
+  <script>
+    if (typeof Chart === 'undefined') {
+      document.write('<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"><\/script>');
+    }
+  </script>
+  <script src="js/ahp-engine.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>
