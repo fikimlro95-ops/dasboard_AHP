@@ -1,0 +1,9 @@
+# Temporary files
+~$*.xlsx
+*.tmp
+__pycache__/
+*.pyc
+
+# Scratch
+scratch_*.py
+scratch_*.html
